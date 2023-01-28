@@ -41,6 +41,7 @@ $ git clone https://github.com/IvanBuccella/CityTrashBot
 ### Environment Variables
 
 Set your own environment variables by using the `.env-sample` file. You can just duplicate and rename it in `.env`.
+Set your own template parameters by editing the `template-parameters.json` file.
 
 ### Install required Modules
 
@@ -52,12 +53,20 @@ $ npm install
 
 ### Run The Bot
 
+#### Run the bot locally
+
 ```sh
 $ npm start
 ```
 
-#### Connect to the bot using Bot Framework Emulator
+And then connect to the bot using Bot Framework Emulator:
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
+
+#### Deploy the bot to Azure
+
+```sh
+$ az deployment group create --resource-group `your resource group name` --template-file template.json --parameters @template-parameters.json
+```
