@@ -14,7 +14,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com) an
   - **[Repository](#repository)**
   - **[Environment variables](#environment-variables)**
   - **[Install required Modules](#install-required-modules)**
-  - **[Run the bot](#run-the-bot)**
+  - **[Run the bot locally](#run-the-bot-locally)**
+  - **[Deploy the bot to Azure](#deploy-the-bot-to-azure)**
 
 ## Installation
 
@@ -51,9 +52,7 @@ Install all the required packages:
 $ npm install
 ```
 
-### Run The Bot
-
-#### Run the bot locally
+### Run the bot locally
 
 ```sh
 $ npm start
@@ -65,8 +64,18 @@ And then connect to the bot using Bot Framework Emulator:
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-#### Deploy the bot to Azure
+### Deploy the bot to Azure
+
+#### Deploy the app service
+
+Zip your repository code, including the `.env` file, and then deploy to Azure:
 
 ```sh
-$ az deployment group create --resource-group `your resource group name` --template-file template.json --parameters @template-parameters.json
+$ az webapp deployment source config-zip --resource-group "<resource-group-name>" --name "<name-of-web-app>" --src "<project-zip-path>"
+```
+
+#### Deploy the bot service
+
+```sh
+$ az deployment group create --resource-group "<resource-group-name>" --template-file template.json --parameters @template-parameters.json
 ```
