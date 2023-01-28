@@ -1,1 +1,10 @@
 credentials.json
+lib/
+node_modules/
+.nyc_output/
+.vscode/
+.env
+.DS_Store
+city-trash.bot-local.bot
+city-trash.bot-remote.bot
+template-parameters.json

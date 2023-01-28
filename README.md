@@ -41,7 +41,7 @@ $ git clone https://github.com/IvanBuccella/CityTrashBot
 ### Environment Variables
 
 Set your own environment variables by using the `.env-sample` file. You can just duplicate and rename it in `.env`.
-Set your own template parameters by editing the `template-parameters.json` file.
+Set your own `template-parameters.json` file by editing the `template-parameters-sample.json` file.
 
 ### Install required Modules
 
