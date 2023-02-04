@@ -1,6 +1,6 @@
 # City Trash Bot
 
-Dry, Multi-material, Wet, Paper, Glass? What should I put out the door today? Feel free to ask CityTrashBot!
+Dry, Multi-material, Wet, Paper, Glass? What should I put out the door today in Rome? Feel free to ask CityTrashBot!
 CityTrashBot is the bot to stay up to date on waste disposal in your municipality.
 It will be enough to interact with him and immediately receive a detailed answer.
 Furthermore, you will be able to receive push notifications based on your preferences agreed with CityTrashBot, you can write or talk to him but, please, don't be bad, he can be hurt.

@@ -1,0 +1,102 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+const {
+  TimexProperty,
+} = require("@microsoft/recognizers-text-data-types-timex-expression");
+const { CancelAndHelpDialog } = require("./cancelAndHelpDialog");
+const {
+  ConfirmPrompt,
+  TextPrompt,
+  WaterfallDialog,
+} = require("botbuilder-dialogs");
+const { InputHints, MessageFactory } = require("botbuilder");
+
+const CONFIRM_PROMPT = "confirmPrompt";
+const TEXT_PROMPT = "textPrompt";
+const WATERFALL_DIALOG = "waterfallDialog";
+
+class GetConferimentDialog extends CancelAndHelpDialog {
+  constructor(id) {
+    super(id || "getConferimentDialog");
+
+    this.addDialog(new TextPrompt(TEXT_PROMPT))
+      .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
+      .addDialog(
+        new WaterfallDialog(WATERFALL_DIALOG, [
+          this.cityStep.bind(this),
+          this.dayStep.bind(this),
+          this.confirmStep.bind(this),
+          this.resultStep.bind(this),
+        ])
+      );
+
+    this.initialDialogId = WATERFALL_DIALOG;
+  }
+
+  async cityStep(stepContext) {
+    const data = stepContext.options;
+
+    if (!data.city) {
+      const messageText =
+        "Which city would you know what to put out the door of?";
+      const msg = MessageFactory.text(
+        messageText,
+        messageText,
+        InputHints.ExpectingInput
+      );
+      return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
+    }
+    return await stepContext.next(data.city);
+  }
+
+  async dayStep(stepContext) {
+    const data = stepContext.options;
+
+    data.city = stepContext.result;
+
+    if (!data.day) {
+      const messageText = "When would you put out your waste?";
+      const msg = MessageFactory.text(
+        messageText,
+        messageText,
+        InputHints.ExpectingInput
+      );
+      return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
+    }
+    return await stepContext.next(data.day);
+  }
+
+  async confirmStep(stepContext) {
+    const data = stepContext.options;
+
+    data.day = stepContext.result;
+
+    const messageText = `Please confirm, you're asking me to know what to put out in ${data.city} on ${data.day}. Is this correct?`;
+    const msg = MessageFactory.text(
+      messageText,
+      messageText,
+      InputHints.ExpectingInput
+    );
+    return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });
+  }
+
+  async resultStep(stepContext) {
+    if (stepContext.result) {
+      const msg = `You have to put out the dry.`;
+      await stepContext.context.sendActivity(
+        msg,
+        msg,
+        InputHints.IgnoringInput
+      );
+    }
+    return await stepContext.endDialog();
+  }
+
+  isAmbiguous(timex) {
+    const timexPropery = new TimexProperty(timex);
+    return !timexPropery.types.has("definite");
+  }
+}
+
+module.exports.GetConferimentDialog = GetConferimentDialog;
