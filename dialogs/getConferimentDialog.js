@@ -11,6 +11,7 @@ const {
   WaterfallDialog,
 } = require("botbuilder-dialogs");
 const { InputHints, MessageFactory } = require("botbuilder");
+const { Database } = require("../resources/database");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -83,7 +84,17 @@ class GetConferimentDialog extends CancelAndHelpDialog {
 
   async resultStep(stepContext) {
     if (stepContext.result) {
-      const msg = `You have to put out the dry.`;
+      const data = stepContext.options;
+      const result = await Database.getInstance().getConferiment({
+        city: data.city.toLowerCase(),
+        day: data.day.toLowerCase(),
+      });
+      let msg = "";
+      if (result != null && result.type != undefined) {
+        msg = `You have to put out the ${result.type}.`;
+      } else {
+        msg = `Sorry, I don't know what to put out in that day.`;
+      }
       await stepContext.context.sendActivity(
         msg,
         msg,

@@ -112,9 +112,7 @@ class MainDialog extends ComponentDialog {
 
       default: {
         // Catch all for unhandled intents
-        const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way (intent was ${LuisRecognizer.topIntent(
-          luisResult
-        )})`;
+        const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way.`;
         await stepContext.context.sendActivity(
           didntUnderstandMessageText,
           didntUnderstandMessageText,
