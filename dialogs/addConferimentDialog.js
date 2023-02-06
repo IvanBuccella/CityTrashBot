@@ -75,7 +75,7 @@ class AddConferimentDialog extends CancelAndHelpDialog {
     data.day = stepContext.result;
 
     if (!data.type) {
-      const messageText = "When do you put out in that day, there?";
+      const messageText = "What do you put out in that day, there?";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -109,10 +109,10 @@ class AddConferimentDialog extends CancelAndHelpDialog {
         type: data.type.toLowerCase(),
       });
       let msg = "";
-      if (result == true) {
-        msg = `Thank you! I have saved your informations.`;
-      } else {
+      if (result === false) {
         msg = `Thank you, but I already knew what to put out.`;
+      } else {
+        msg = `Thank you! I have saved your informations.`;
       }
       await stepContext.context.sendActivity(
         msg,

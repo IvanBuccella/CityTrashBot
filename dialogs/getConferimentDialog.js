@@ -27,7 +27,6 @@ class GetConferimentDialog extends CancelAndHelpDialog {
         new WaterfallDialog(WATERFALL_DIALOG, [
           this.cityStep.bind(this),
           this.dayStep.bind(this),
-          this.confirmStep.bind(this),
           this.resultStep.bind(this),
         ])
       );
@@ -69,10 +68,6 @@ class GetConferimentDialog extends CancelAndHelpDialog {
   }
 
   async confirmStep(stepContext) {
-    const data = stepContext.options;
-
-    data.day = stepContext.result;
-
     const messageText = `Please confirm, you're asking me to know what to put out in ${data.city} on ${data.day}. Is this correct?`;
     const msg = MessageFactory.text(
       messageText,
@@ -83,24 +78,19 @@ class GetConferimentDialog extends CancelAndHelpDialog {
   }
 
   async resultStep(stepContext) {
-    if (stepContext.result) {
-      const data = stepContext.options;
-      const result = await Database.getInstance().getConferiment({
-        city: data.city.toLowerCase(),
-        day: data.day.toLowerCase(),
-      });
-      let msg = "";
-      if (result != null && result.type != undefined) {
-        msg = `You have to put out the ${result.type}.`;
-      } else {
-        msg = `Sorry, I don't know what to put out in that day.`;
-      }
-      await stepContext.context.sendActivity(
-        msg,
-        msg,
-        InputHints.IgnoringInput
-      );
+    const data = stepContext.options;
+    data.day = stepContext.result;
+    const result = await Database.getInstance().getConferiment({
+      city: data.city.toLowerCase(),
+      day: data.day.toLowerCase(),
+    });
+    let msg = "";
+    if (result != null && result.type != undefined) {
+      msg = `You have to put out the ${result.type}.`;
+    } else {
+      msg = `Sorry, I don't know what to put out in that day.`;
     }
+    await stepContext.context.sendActivity(msg, msg, InputHints.IgnoringInput);
     return await stepContext.endDialog();
   }
 
