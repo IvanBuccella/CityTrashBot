@@ -142,8 +142,6 @@ class MainDialog extends ComponentDialog {
       stepContext.context
     );
     const luisIntent = LuisRecognizer.topIntent(luisResult);
-    console.log(luisIntent);
-    console.log(option);
     if (option == "GetConferiment" || luisIntent == "GetConferiment") {
       const data = {};
 
