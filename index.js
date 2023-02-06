@@ -25,17 +25,17 @@ const {
 } = require("botbuilder");
 
 const {
-  GetConferimentRecognizer,
-} = require("./recognizers/getConferimentRecognizer");
+  ConferimentRecognizer,
+} = require("./recognizers/conferimentRecognizer");
 
 const { DialogAndWelcomeBot } = require("./bots/dialogAndWelcomeBot");
 
 // This bot's main dialog.
 const { MainDialog } = require("./dialogs/mainDialog");
-
-// the bot's booking dialog
 const { GetConferimentDialog } = require("./dialogs/getConferimentDialog");
+const { AddConferimentDialog } = require("./dialogs/addConferimentDialog");
 const GET_CONFERIMENT_DIALOG = "getConferimentDialog";
+const ADD_CONFERIMENT_DIALOG = "addConferimentDialog";
 
 const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
   MicrosoftAppId: process.env.MicrosoftAppId,
@@ -97,7 +97,6 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
-// If configured, pass in the FlightBookingRecognizer.  (Defining it externally allows it to be mocked for tests)
 const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
 const luisConfig = {
   applicationId: LuisAppId,
@@ -105,11 +104,16 @@ const luisConfig = {
   endpoint: `https://${LuisAPIHostName}`,
 };
 
-const luisRecognizer = new GetConferimentRecognizer(luisConfig);
+const luisRecognizer = new ConferimentRecognizer(luisConfig);
 
 // Create the main dialog.
 const getConferimentDialog = new GetConferimentDialog(GET_CONFERIMENT_DIALOG);
-const dialog = new MainDialog(luisRecognizer, getConferimentDialog);
+const addConferimentDialog = new AddConferimentDialog(ADD_CONFERIMENT_DIALOG);
+const dialog = new MainDialog(
+  luisRecognizer,
+  getConferimentDialog,
+  addConferimentDialog
+);
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server
@@ -118,10 +122,6 @@ server.use(restify.plugins.bodyParser());
 
 server.listen(process.env.port || process.env.PORT || 3978, function () {
   console.log(`\n${server.name} listening to ${server.url}`);
-  console.log(
-    "\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator"
-  );
-  console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
 // Listen for incoming activities and route them to your bot main dialog.

@@ -23,6 +23,7 @@ class Database {
 
   async getConferiment(params) {
     try {
+      params.day = this.formatInputDay(params.day);
       if (
         params.day == undefined ||
         params.city == undefined ||
@@ -31,15 +32,6 @@ class Database {
       ) {
         return null;
       }
-
-      if (params.day == "yesterday") {
-        params.day = this.weekday[new Date().getDay() - 1];
-      } else if (params.day == "today") {
-        params.day = this.weekday[new Date().getDay()];
-      } else if (params.day == "tomorrow") {
-        params.day = this.weekday[new Date().getDay() + 1];
-      }
-
       await this.client.connect();
       return await this.client
         .db(process.env.DATABASE_NAME)
@@ -48,6 +40,42 @@ class Database {
     } finally {
       await this.client.close();
     }
+  }
+
+  async insertConferiment(params) {
+    try {
+      params.day = this.formatInputDay(params.day);
+      if (
+        params.day == undefined ||
+        params.city == undefined ||
+        params.type == undefined ||
+        params.day == "" ||
+        params.city == "" ||
+        params.type == ""
+      ) {
+        return false;
+      }
+      const found = await this.getConferiment(params);
+      await this.client.connect();
+      if (found) return false;
+      return await this.client
+        .db(process.env.DATABASE_NAME)
+        .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
+        .insertOne(params);
+    } finally {
+      await this.client.close();
+    }
+  }
+
+  formatInputDay(inputDay) {
+    if (inputDay == "yesterday") {
+      return this.weekday[new Date().getDay() - 1];
+    } else if (inputDay == "today") {
+      return this.weekday[new Date().getDay()];
+    } else if (inputDay == "tomorrow") {
+      return this.weekday[new Date().getDay() + 1];
+    }
+    return inputDay;
   }
 
   static getInstance() {

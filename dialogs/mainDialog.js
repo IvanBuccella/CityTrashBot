@@ -14,7 +14,7 @@ const {
 const MAIN_WATERFALL_DIALOG = "mainWaterfallDialog";
 
 class MainDialog extends ComponentDialog {
-  constructor(luisRecognizer, bookingDialog) {
+  constructor(luisRecognizer, getConferimentDialog, addConferimentDialog) {
     super("MainDialog");
 
     if (!luisRecognizer)
@@ -23,15 +23,21 @@ class MainDialog extends ComponentDialog {
       );
     this.luisRecognizer = luisRecognizer;
 
-    if (!bookingDialog)
+    if (!getConferimentDialog)
       throw new Error(
-        "[MainDialog]: Missing parameter 'bookingDialog' is required"
+        "[MainDialog]: Missing parameter 'getConferimentDialog' is required"
+      );
+
+    if (!addConferimentDialog)
+      throw new Error(
+        "[MainDialog]: Missing parameter 'addConferimentDialog' is required"
       );
 
     // Define the main dialog and its related components.
     // This is a sample "book a flight" dialog.
     this.addDialog(new TextPrompt("TextPrompt"))
-      .addDialog(bookingDialog)
+      .addDialog(getConferimentDialog)
+      .addDialog(addConferimentDialog)
       .addDialog(
         new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
           this.introStep.bind(this),
@@ -60,11 +66,6 @@ class MainDialog extends ComponentDialog {
     }
   }
 
-  /**
-   * First step in the waterfall dialog. Prompts the user for a command.
-   * Currently, this expects a booking request, like "book me a flight from Paris to Berlin on march 22"
-   * Note that the sample LUIS model will only recognize Paris, Berlin, New York and London as airport cities.
-   */
   async introStep(stepContext) {
     if (!this.luisRecognizer.isConfigured) {
       const messageText =
@@ -87,16 +88,11 @@ class MainDialog extends ComponentDialog {
     return await stepContext.prompt("TextPrompt", { prompt: promptMessage });
   }
 
-  /**
-   * Second step in the waterfall.  This will use LUIS to attempt to extract the origin, destination and travel dates.
-   * Then, it hands off to the bookingDialog child dialog to collect any remaining details.
-   */
   async actStep(stepContext) {
     if (!this.luisRecognizer.isConfigured) {
       return;
     }
 
-    // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt)
     const luisResult = await this.luisRecognizer.executeLuisQuery(
       stepContext.context
     );
@@ -108,6 +104,16 @@ class MainDialog extends ComponentDialog {
         data.day = this.luisRecognizer.getDay(luisResult);
 
         return await stepContext.beginDialog("getConferimentDialog", data);
+      }
+
+      case "AddConferiment": {
+        const data = {};
+
+        data.city = this.luisRecognizer.getCity(luisResult);
+        data.day = this.luisRecognizer.getDay(luisResult);
+        data.type = this.luisRecognizer.getType(luisResult);
+
+        return await stepContext.beginDialog("addConferimentDialog", data);
       }
 
       default: {
