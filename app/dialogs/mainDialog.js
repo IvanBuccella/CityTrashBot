@@ -141,37 +141,33 @@ class MainDialog extends ComponentDialog {
     const luisResult = await this.luisRecognizer.executeLuisQuery(
       stepContext.context
     );
-    switch (option || LuisRecognizer.topIntent(luisResult)) {
-      case "GetConferiment": {
-        const data = {};
+    const luisIntent = LuisRecognizer.topIntent(luisResult);
+    console.log(luisIntent);
+    console.log(option);
+    if (option == "GetConferiment" || luisIntent == "GetConferiment") {
+      const data = {};
 
-        data.city = this.luisRecognizer.getCity(luisResult);
-        data.day = this.luisRecognizer.getDay(luisResult);
+      data.city = this.luisRecognizer.getCity(luisResult);
+      data.day = this.luisRecognizer.getDay(luisResult);
 
-        return await stepContext.beginDialog("getConferimentDialog", data);
-      }
+      return await stepContext.beginDialog("getConferimentDialog", data);
+    } else if (option == "AddConferiment" || luisIntent == "AddConferiment") {
+      const data = {};
 
-      case "AddConferiment": {
-        const data = {};
+      data.city = this.luisRecognizer.getCity(luisResult);
+      data.day = this.luisRecognizer.getDay(luisResult);
+      data.type = this.luisRecognizer.getType(luisResult);
 
-        data.city = this.luisRecognizer.getCity(luisResult);
-        data.day = this.luisRecognizer.getDay(luisResult);
-        data.type = this.luisRecognizer.getType(luisResult);
-
-        return await stepContext.beginDialog("addConferimentDialog", data);
-      }
-
-      default: {
-        // Catch all for unhandled intents
-        const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way.`;
-        await stepContext.context.sendActivity(
-          didntUnderstandMessageText,
-          didntUnderstandMessageText,
-          InputHints.IgnoringInput
-        );
-      }
+      return await stepContext.beginDialog("addConferimentDialog", data);
+    } else {
+      // Catch all for unhandled intents
+      const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way.`;
+      await stepContext.context.sendActivity(
+        didntUnderstandMessageText,
+        didntUnderstandMessageText,
+        InputHints.IgnoringInput
+      );
     }
-
     return await stepContext.next();
   }
 
