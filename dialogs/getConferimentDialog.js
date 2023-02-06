@@ -67,16 +67,6 @@ class GetConferimentDialog extends CancelAndHelpDialog {
     return await stepContext.next(data.day);
   }
 
-  async confirmStep(stepContext) {
-    const messageText = `Please confirm, you're asking me to know what to put out in ${data.city} on ${data.day}. Is this correct?`;
-    const msg = MessageFactory.text(
-      messageText,
-      messageText,
-      InputHints.ExpectingInput
-    );
-    return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });
-  }
-
   async resultStep(stepContext) {
     const data = stepContext.options;
     data.day = stepContext.result;
