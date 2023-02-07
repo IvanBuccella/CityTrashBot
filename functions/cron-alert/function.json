@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "name": "myTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "* */1 * * * *"
+    },
+    {
+      "name": "sendEmailMessage",
+      "type": "serviceBus",
+      "queueName": "city-trash-bot-queue",
+      "connection": "SERVICE_BUS_CONNECTION",
+      "direction": "out"
+    }
+  ]
+}

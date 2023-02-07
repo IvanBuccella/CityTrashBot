@@ -111,6 +111,19 @@ class Database {
     }
   }
 
+  async getAllAlerts(params) {
+    try {
+      await this.client.connect();
+      return await this.client
+        .db(process.env.DATABASE_NAME)
+        .collection(process.env.DATABASE_ALERT_COLLECTION)
+        .find(params)
+        .toArray();
+    } finally {
+      await this.client.close();
+    }
+  }
+
   validateInputTime(inputTime) {
     if (inputTime === undefined) return undefined;
     inputTime = inputTime.toLowerCase().replace(/\s+/g, "");
