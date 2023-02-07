@@ -32,6 +32,8 @@ class Database {
       ) {
         return null;
       }
+      params.day = params.day.toLowerCase();
+      params.city = params.city.toLowerCase();
       await this.client.connect();
       return await this.client
         .db(process.env.DATABASE_NAME)
@@ -55,6 +57,9 @@ class Database {
       ) {
         return false;
       }
+      params.day = params.day.toLowerCase();
+      params.city = params.city.toLowerCase();
+      params.type = params.type.toLowerCase();
       const found = await this.getConferiment(params);
       await this.client.connect();
       if (found) return false;

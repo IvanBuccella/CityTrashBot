@@ -11,7 +11,7 @@ const {
   WaterfallDialog,
 } = require("botbuilder-dialogs");
 const { InputHints, MessageFactory } = require("botbuilder");
-const { Database } = require("../resources/database");
+const axios = require("axios");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -70,13 +70,14 @@ class GetConferimentDialog extends CancelAndHelpDialog {
   async resultStep(stepContext) {
     const data = stepContext.options;
     data.day = stepContext.result;
-    const result = await Database.getInstance().getConferiment({
-      city: data.city.toLowerCase(),
-      day: data.day.toLowerCase(),
+    const result = await axios({
+      method: "post",
+      url: process.env.FUNCTION_GET_CONFERIMENT_ENDPOINT,
+      data: data,
     });
-    let msg = "";
-    if (result != null && result.type != undefined) {
-      msg = `You have to put out the ${result.type}.`;
+    let msg;
+    if (result.data) {
+      msg = `You have to put out the ${result.data}.`;
     } else {
       msg = `Sorry, I don't know what to put out in that day.`;
     }
