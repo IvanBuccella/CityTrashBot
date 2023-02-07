@@ -25,8 +25,8 @@ const {
 } = require("botbuilder");
 
 const {
-  ConferimentRecognizer,
-} = require("./recognizers/conferimentRecognizer");
+  CityTrashBotRecognizer,
+} = require("./recognizers/cityTrashBotRecognizer");
 
 const { DialogAndWelcomeBot } = require("./bots/dialogAndWelcomeBot");
 
@@ -34,8 +34,12 @@ const { DialogAndWelcomeBot } = require("./bots/dialogAndWelcomeBot");
 const { MainDialog } = require("./dialogs/mainDialog");
 const { GetConferimentDialog } = require("./dialogs/getConferimentDialog");
 const { AddConferimentDialog } = require("./dialogs/addConferimentDialog");
+const {
+  AddAlertSchedulingDialog,
+} = require("./dialogs/addAlertSchedulingDialog");
 const GET_CONFERIMENT_DIALOG = "getConferimentDialog";
 const ADD_CONFERIMENT_DIALOG = "addConferimentDialog";
+const ADD_ALERT_SCHEDULING_DIALOG = "addAlertSchedulingDialog";
 
 const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
   MicrosoftAppId: process.env.MicrosoftAppId,
@@ -104,15 +108,19 @@ const luisConfig = {
   endpoint: `https://${LuisAPIHostName}`,
 };
 
-const luisRecognizer = new ConferimentRecognizer(luisConfig);
+const cityTrashBotRecognizer = new CityTrashBotRecognizer(luisConfig);
 
 // Create the main dialog.
 const getConferimentDialog = new GetConferimentDialog(GET_CONFERIMENT_DIALOG);
 const addConferimentDialog = new AddConferimentDialog(ADD_CONFERIMENT_DIALOG);
+const addAlertSchedulingDialog = new AddAlertSchedulingDialog(
+  ADD_ALERT_SCHEDULING_DIALOG
+);
 const dialog = new MainDialog(
-  luisRecognizer,
+  cityTrashBotRecognizer,
   getConferimentDialog,
-  addConferimentDialog
+  addConferimentDialog,
+  addAlertSchedulingDialog
 );
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 

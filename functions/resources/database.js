@@ -1,18 +1,21 @@
 const { MongoClient } = require("mongodb");
+const isValidTime = (str) => /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(str);
+const isValidEmail = (str) => /\S+@\S+\.\S+/.test(str);
+const validTypes = ["dry", "multi-material", "paper", "glass", "wet"];
+const weekdays = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
 
 class Database {
   static _instance;
 
   constructor() {
-    this.weekday = [
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-    ];
     this.client = new MongoClient(
       process.env.DATABASE_URL + "?authMechanism=DEFAULT",
       {
@@ -22,18 +25,12 @@ class Database {
   }
 
   async getConferiment(params) {
+    params.city = this.validateInputCity(params.city);
+    params.day = this.validateInputDay(params.day);
     try {
-      params.day = this.formatInputDay(params.day);
-      if (
-        params.day == undefined ||
-        params.city == undefined ||
-        params.day == "" ||
-        params.city == ""
-      ) {
+      if (params.day == undefined || params.city == undefined) {
         return null;
       }
-      params.day = params.day.toLowerCase();
-      params.city = params.city.toLowerCase();
       await this.client.connect();
       return await this.client
         .db(process.env.DATABASE_NAME)
@@ -45,21 +42,17 @@ class Database {
   }
 
   async insertConferiment(params) {
+    params.city = this.validateInputCity(params.city);
+    params.day = this.validateInputDay(params.day);
+    params.type = this.validateInputType(params.type);
     try {
-      params.day = this.formatInputDay(params.day);
       if (
         params.day == undefined ||
         params.city == undefined ||
-        params.type == undefined ||
-        params.day == "" ||
-        params.city == "" ||
-        params.type == ""
+        params.type == undefined
       ) {
         return false;
       }
-      params.day = params.day.toLowerCase();
-      params.city = params.city.toLowerCase();
-      params.type = params.type.toLowerCase();
       const found = await this.getConferiment(params);
       await this.client.connect();
       if (found) return false;
@@ -72,13 +65,92 @@ class Database {
     }
   }
 
-  formatInputDay(inputDay) {
+  async getAlert(params) {
+    params.city = this.validateInputCity(params.city);
+    params.email = this.validateInputEmail(params.email);
+    params.time = this.validateInputTime(params.time);
+    try {
+      if (
+        params.city == undefined ||
+        params.email == undefined ||
+        params.time == undefined
+      ) {
+        return null;
+      }
+      await this.client.connect();
+      return await this.client
+        .db(process.env.DATABASE_NAME)
+        .collection(process.env.DATABASE_ALERT_COLLECTION)
+        .findOne(params);
+    } finally {
+      await this.client.close();
+    }
+  }
+
+  async insertAlertSchedule(params) {
+    params.city = this.validateInputCity(params.city);
+    params.email = this.validateInputEmail(params.email);
+    params.time = this.validateInputTime(params.time);
+    try {
+      if (
+        params.city == undefined ||
+        params.email == undefined ||
+        params.time == undefined
+      ) {
+        return false;
+      }
+      const found = await this.getAlert(params);
+      await this.client.connect();
+      if (found) return false;
+      return await this.client
+        .db(process.env.DATABASE_NAME)
+        .collection(process.env.DATABASE_ALERT_COLLECTION)
+        .insertOne(params);
+    } finally {
+      await this.client.close();
+    }
+  }
+
+  validateInputTime(inputTime) {
+    if (inputTime === undefined) return undefined;
+    inputTime = inputTime.toLowerCase().replace(/\s+/g, "");
+    if (inputTime.length == 0) return undefined;
+    if (!isValidTime(inputTime)) return undefined;
+    return inputTime;
+  }
+
+  validateInputEmail(inputEmail) {
+    if (inputEmail === undefined) return undefined;
+    inputEmail = inputEmail.toLowerCase().replace(/\s+/g, "");
+    if (inputEmail.length == 0) return undefined;
+    if (!isValidEmail(inputEmail)) return undefined;
+    return inputEmail;
+  }
+
+  validateInputType(inputType) {
+    if (inputType === undefined) return undefined;
+    if (!validTypes.includes(inputType)) return undefined;
+    inputType = inputType.toLowerCase().replace(/\s+/g, "");
+    if (inputType.length == 0) return undefined;
+    return inputType;
+  }
+
+  validateInputCity(inputCity) {
+    if (inputCity === undefined) return undefined;
+    inputCity = inputCity.toLowerCase().replace(/\s+/g, "");
+    if (inputCity.length == 0) return undefined;
+    return inputCity;
+  }
+
+  validateInputDay(inputDay) {
+    inputDay = inputDay.toLowerCase().replace(/\s+/g, "");
+    if (inputDay.length == 0) return undefined;
     if (inputDay == "yesterday") {
-      return this.weekday[new Date().getDay() - 1];
+      return weekdays[new Date().getDay() - 1];
     } else if (inputDay == "today") {
-      return this.weekday[new Date().getDay()];
+      return weekdays[new Date().getDay()];
     } else if (inputDay == "tomorrow") {
-      return this.weekday[new Date().getDay() + 1];
+      return weekdays[new Date().getDay() + 1];
     }
     return inputDay;
   }

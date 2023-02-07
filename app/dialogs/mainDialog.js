@@ -21,14 +21,19 @@ const MAIN_WATERFALL_DIALOG = "mainWaterfallDialog";
 const TEXT_PROMPT = "TextPrompt";
 
 class MainDialog extends ComponentDialog {
-  constructor(luisRecognizer, getConferimentDialog, addConferimentDialog) {
+  constructor(
+    cityTrashBotRecognizer,
+    getConferimentDialog,
+    addConferimentDialog,
+    addAlertSchedulingDialog
+  ) {
     super("MainDialog");
 
-    if (!luisRecognizer)
+    if (!cityTrashBotRecognizer)
       throw new Error(
-        "[MainDialog]: Missing parameter 'luisRecognizer' is required"
+        "[MainDialog]: Missing parameter 'cityTrashBotRecognizer' is required"
       );
-    this.luisRecognizer = luisRecognizer;
+    this.cityTrashBotRecognizer = cityTrashBotRecognizer;
 
     if (!getConferimentDialog)
       throw new Error(
@@ -40,11 +45,17 @@ class MainDialog extends ComponentDialog {
         "[MainDialog]: Missing parameter 'addConferimentDialog' is required"
       );
 
+    if (!addAlertSchedulingDialog)
+      throw new Error(
+        "[MainDialog]: Missing parameter 'addAlertSchedulingDialog' is required"
+      );
+
     // Define the main dialog and its related components.
     // This is a sample "book a flight" dialog.
     this.addDialog(new TextPrompt(TEXT_PROMPT))
       .addDialog(getConferimentDialog)
       .addDialog(addConferimentDialog)
+      .addDialog(addAlertSchedulingDialog)
       .addDialog(
         new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
           this.introStep.bind(this),
@@ -75,7 +86,7 @@ class MainDialog extends ComponentDialog {
   }
 
   async introStep(stepContext) {
-    if (!this.luisRecognizer.isConfigured) {
+    if (!this.cityTrashBotRecognizer.isConfigured) {
       const messageText =
         "NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.";
       return await stepContext.context.sendActivity(
@@ -114,6 +125,11 @@ class MainDialog extends ComponentDialog {
           title: "Train the bot about your municipality",
           value: "AddConferiment",
         },
+        {
+          type: ActionTypes.ImBack,
+          title: "Schedule an alert for always know what to put out the door!",
+          value: "AddAlertScheduling",
+        },
       ];
 
       const card = CardFactory.heroCard("", undefined, buttons, {
@@ -133,30 +149,41 @@ class MainDialog extends ComponentDialog {
   }
 
   async actStep(stepContext) {
-    if (!this.luisRecognizer.isConfigured) {
+    if (!this.cityTrashBotRecognizer.isConfigured) {
       return;
     }
 
     const option = stepContext.result;
-    const luisResult = await this.luisRecognizer.executeLuisQuery(
+    const luisResult = await this.cityTrashBotRecognizer.executeLuisQuery(
       stepContext.context
     );
     const luisIntent = LuisRecognizer.topIntent(luisResult);
     if (option == "GetConferiment" || luisIntent == "GetConferiment") {
       const data = {};
 
-      data.city = this.luisRecognizer.getCity(luisResult);
-      data.day = this.luisRecognizer.getDay(luisResult);
+      data.city = this.cityTrashBotRecognizer.getCity(luisResult);
+      data.day = this.cityTrashBotRecognizer.getDay(luisResult);
 
       return await stepContext.beginDialog("getConferimentDialog", data);
     } else if (option == "AddConferiment" || luisIntent == "AddConferiment") {
       const data = {};
 
-      data.city = this.luisRecognizer.getCity(luisResult);
-      data.day = this.luisRecognizer.getDay(luisResult);
-      data.type = this.luisRecognizer.getType(luisResult);
+      data.city = this.cityTrashBotRecognizer.getCity(luisResult);
+      data.day = this.cityTrashBotRecognizer.getDay(luisResult);
+      data.type = this.cityTrashBotRecognizer.getType(luisResult);
 
       return await stepContext.beginDialog("addConferimentDialog", data);
+    } else if (
+      option == "AddAlertScheduling" ||
+      luisIntent == "AddAlertScheduling"
+    ) {
+      const data = {};
+
+      data.city = this.cityTrashBotRecognizer.getCity(luisResult);
+      data.email = this.cityTrashBotRecognizer.getEmail(luisResult);
+      data.time = this.cityTrashBotRecognizer.getTime(luisResult);
+
+      return await stepContext.beginDialog("addAlertSchedulingDialog", data);
     } else {
       // Catch all for unhandled intents
       const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way.`;

@@ -3,7 +3,7 @@
 
 const { LuisRecognizer } = require("botbuilder-ai");
 
-class ConferimentRecognizer {
+class CityTrashBotRecognizer {
   constructor(config) {
     const luisIsConfigured =
       config && config.applicationId && config.endpointKey && config.endpoint;
@@ -53,6 +53,22 @@ class ConferimentRecognizer {
     }
     return value;
   }
+
+  getEmail(result) {
+    let value;
+    if (result.entities.$instance.Email) {
+      value = result.entities.$instance.Email[0].text;
+    }
+    return value;
+  }
+
+  getTime(result) {
+    let value;
+    if (result.entities.$instance.Time) {
+      value = result.entities.$instance.Time[0].text;
+    }
+    return value;
+  }
 }
 
-module.exports.ConferimentRecognizer = ConferimentRecognizer;
+module.exports.CityTrashBotRecognizer = CityTrashBotRecognizer;
