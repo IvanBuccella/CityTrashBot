@@ -30,6 +30,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com) an
 - [Microsoft Bot Framework Tools](https://github.com/Microsoft/botbuilder-tools)
 - The [Bot Framework SDK](https://github.com/microsoft/botbuilder-js) for JavaScript
 - [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator)
+- [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 
 ### Repository
 
@@ -41,20 +42,27 @@ $ git clone https://github.com/IvanBuccella/CityTrashBot
 
 ### Environment Variables
 
-Set your own environment variables by using the `.env-sample` file. You can just duplicate and rename it in `.env`.
-Set your own `template-parameters.json` file by editing the `template-parameters-sample.json` file.
+- If you run the bot locally, create your own environment variables `app/.env` file by using the `.env-sample` file.
+- Set your own `template-parameters.json` file by editing the `template-parameters-sample.json` file.
+- Set your own applications settings (environment variables) on the Azure Portal.
 
 ### Install required Modules
 
 Install all the required packages:
 
 ```sh
+$ cd functions
+$ npm install
+$ cd app
 $ npm install
 ```
 
 ### Run the bot locally
 
 ```sh
+$ cd functions
+$ func start
+$ cd app
 $ npm start
 ```
 
@@ -66,16 +74,25 @@ And then connect to the bot using Bot Framework Emulator:
 
 ### Deploy the bot to Azure
 
-#### Deploy the app service
-
-Zip your repository code, including the `.env` file, and then deploy to Azure:
+#### Deploy the functions
 
 ```sh
+$ cd functions
+$ func azure functionapp publish "<function-app-name>"
+```
+
+#### Deploy the app service
+
+Zip your app code and then deploy to Azure:
+
+```sh
+$ cd app
 $ az webapp deployment source config-zip --resource-group "<resource-group-name>" --name "<name-of-web-app>" --src "<project-zip-path>"
 ```
 
 #### Deploy the bot service
 
 ```sh
+$ cd app
 $ az deployment group create --resource-group "<resource-group-name>" --template-file template.json --parameters @template-parameters.json
 ```
