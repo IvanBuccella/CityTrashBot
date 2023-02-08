@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const isValidTime = (str) => /^[01][0-9]:[0-5][0-9]$/.test(str);
 const isValidEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
-const validTypes = ["dry", "multi-material", "paper", "glass", "wet"];
+const types = ["dry", "glass", "multimaterial", "paper", "wet"];
 const weekdays = [
   "sunday",
   "monday",
@@ -27,7 +27,7 @@ class Database {
   async getConferiment(params) {
     params.city = this.validateInputCity(params.city);
     params.day = this.validateInputDay(params.day);
-    params.type = this.validateInputDay(params.type);
+    params.type = this.validateInputType(params.type);
     try {
       if (
         params.city == undefined ||
@@ -67,7 +67,7 @@ class Database {
 
   async getConferimentDay(params) {
     params.city = this.validateInputCity(params.city);
-    params.type = this.validateInputDay(params.type);
+    params.type = this.validateInputType(params.type);
     try {
       if (params.city == undefined || params.type == undefined) {
         return null;
@@ -191,9 +191,10 @@ class Database {
 
   validateInputType(inputType) {
     if (inputType === undefined) return undefined;
-    if (!validTypes.includes(inputType)) return undefined;
     inputType = inputType.toLowerCase().replace(/\s+/g, "");
+    inputType = inputType.replace("-", "");
     if (inputType.length == 0) return undefined;
+    if (!types.includes(inputType)) return undefined;
     return inputType;
   }
 
@@ -216,6 +217,7 @@ class Database {
     } else if (inputDay == "tomorrow") {
       return weekdays[today + 1];
     }
+    if (!weekdays.includes(inputDay)) return undefined;
     return inputDay;
   }
 

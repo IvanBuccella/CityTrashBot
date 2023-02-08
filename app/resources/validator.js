@@ -25,7 +25,7 @@ class Validator {
   static isValidType(inputType) {
     if (inputType === undefined) return false;
     inputType = inputType.toLowerCase().replace(/\s+/g, "");
-    inputType = inputType.toLowerCase().replace("-", "");
+    inputType = inputType.replace("-", "");
     if (inputType.length == 0) return false;
     if (!this.types.includes(inputType)) return false;
     return true;
