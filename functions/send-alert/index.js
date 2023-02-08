@@ -2,6 +2,8 @@ const { Database } = require("../resources/database");
 const { EmailClient } = require("@azure/communication-email");
 
 module.exports = async function (context, sendEmailMessage) {
+  if (!sendEmailMessage) return;
+
   sendEmailMessage.day = "today";
 
   const result = await Database.getInstance().getConferiment(sendEmailMessage);
