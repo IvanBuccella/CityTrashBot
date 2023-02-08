@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "queueName": "city-trash-bot-queue",
+      "connection": "SERVICE_BUS_CONNECTION",
+      "name": "sendEmailMessage",
+      "type": "serviceBusTrigger",
+      "direction": "in"
+    }
+  ]
+}

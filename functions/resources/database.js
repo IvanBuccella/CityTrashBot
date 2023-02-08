@@ -27,15 +27,25 @@ class Database {
   async getConferiment(params) {
     params.city = this.validateInputCity(params.city);
     params.day = this.validateInputDay(params.day);
+    params.type = this.validateInputDay(params.type);
     try {
       if (params.day == undefined || params.city == undefined) {
         return null;
       }
       await this.client.connect();
-      return await this.client
-        .db(process.env.DATABASE_NAME)
-        .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
-        .findOne(params);
+      if (params.type == undefined) {
+        return await this.client
+          .db(process.env.DATABASE_NAME)
+          .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
+          .find({ city: params.city, day: params.day })
+          .toArray();
+      } else {
+        return await this.client
+          .db(process.env.DATABASE_NAME)
+          .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
+          .find({ city: params.city, day: params.day, type: params.type })
+          .toArray();
+      }
     } finally {
       await this.client.close();
     }
@@ -55,11 +65,11 @@ class Database {
       }
       const found = await this.getConferiment(params);
       await this.client.connect();
-      if (found) return false;
+      if (found && found.length > 0) return false;
       return await this.client
         .db(process.env.DATABASE_NAME)
         .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
-        .insertOne(params);
+        .insertOne({ city: params.city, day: params.day, type: params.type });
     } finally {
       await this.client.close();
     }
@@ -81,7 +91,7 @@ class Database {
       return await this.client
         .db(process.env.DATABASE_NAME)
         .collection(process.env.DATABASE_ALERT_COLLECTION)
-        .findOne(params);
+        .findOne({ city: params.city, email: params.email, time: params.time });
     } finally {
       await this.client.close();
     }
@@ -105,20 +115,27 @@ class Database {
       return await this.client
         .db(process.env.DATABASE_NAME)
         .collection(process.env.DATABASE_ALERT_COLLECTION)
-        .insertOne(params);
+        .insertOne({
+          city: params.city,
+          email: params.email,
+          time: params.time,
+        });
     } finally {
       await this.client.close();
     }
   }
 
   async getAllAlerts(params) {
+    params.time = this.validateInputTime(params.time);
     try {
       await this.client.connect();
       return await this.client
         .db(process.env.DATABASE_NAME)
         .collection(process.env.DATABASE_ALERT_COLLECTION)
         .find(params)
-        .toArray();
+        .toArray({
+          time: params.time,
+        });
     } finally {
       await this.client.close();
     }
@@ -156,6 +173,7 @@ class Database {
   }
 
   validateInputDay(inputDay) {
+    if (inputDay === undefined) return undefined;
     inputDay = inputDay.toLowerCase().replace(/\s+/g, "");
     if (inputDay.length == 0) return undefined;
     if (inputDay == "yesterday") {
