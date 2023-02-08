@@ -176,12 +176,15 @@ class Database {
     if (inputDay === undefined) return undefined;
     inputDay = inputDay.toLowerCase().replace(/\s+/g, "");
     if (inputDay.length == 0) return undefined;
+    const today = new Date().getDay().toLocaleString("en-US", {
+      timeZone: "Europe/Rome",
+    });
     if (inputDay == "yesterday") {
-      return weekdays[new Date().getDay() - 1];
+      return weekdays[today - 1];
     } else if (inputDay == "today") {
-      return weekdays[new Date().getDay()];
+      return weekdays[today];
     } else if (inputDay == "tomorrow") {
-      return weekdays[new Date().getDay() + 1];
+      return weekdays[today + 1];
     }
     return inputDay;
   }

@@ -1,13 +1,20 @@
 const { Database } = require("../resources/database");
 
 module.exports = async function (context, myTimer) {
-  var date = new Date();
-
+  const hours = new Date()
+    .getHours()
+    .toLocaleString("en-US", {
+      timeZone: "Europe/Rome",
+    })
+    .padStart(2, "0");
+  const minutes = new Date()
+    .getMinutes()
+    .toLocaleString("en-US", {
+      timeZone: "Europe/Rome",
+    })
+    .padStart(2, "0");
   const result = await Database.getInstance().getAllAlerts({
-    time:
-      String(date.getHours()).padStart(2, "0") +
-      ":" +
-      String(date.getMinutes()).padStart(2, "0"),
+    time: hours + ":" + minutes,
   });
 
   if (result == undefined || result.length == 0) return;
