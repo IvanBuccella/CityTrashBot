@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
-const isValidTime = (str) => /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(str);
-const isValidEmail = (str) => /\S+@\S+\.\S+/.test(str);
+const isValidTime = (str) => /^[01][0-9]:[0-5][0-9]$/.test(str);
+const isValidEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
 const validTypes = ["dry", "multi-material", "paper", "glass", "wet"];
 const weekdays = [
   "sunday",

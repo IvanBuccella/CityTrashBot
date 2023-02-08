@@ -12,6 +12,7 @@ const {
 } = require("botbuilder-dialogs");
 const { InputHints, MessageFactory } = require("botbuilder");
 const axios = require("axios");
+const { Validator } = require("../resources/validator");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -71,6 +72,9 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
   async timeStep(stepContext) {
     const data = stepContext.options;
 
+    if (!Validator.isValidEmail(stepContext.result)) {
+      return await stepContext.replaceDialog("addAlertSchedulingDialog", data);
+    }
     data.email = stepContext.result;
 
     if (!data.time) {
@@ -89,6 +93,9 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
   async confirmStep(stepContext) {
     const data = stepContext.options;
 
+    if (!Validator.isValidTime(stepContext.result)) {
+      return await stepContext.replaceDialog("addAlertSchedulingDialog", data);
+    }
     data.time = stepContext.result;
 
     const messageText = `Please confirm, you want to receive the alerts on the email address "${data.email}", every day at "${data.time}", for the city "${data.city}". Is this correct?`;

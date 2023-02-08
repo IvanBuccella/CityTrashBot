@@ -12,7 +12,7 @@ const {
 } = require("botbuilder-dialogs");
 const { InputHints, MessageFactory } = require("botbuilder");
 const axios = require("axios");
-
+const { Validator } = require("../resources/validator");
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
 const WATERFALL_DIALOG = "waterfallDialog";
@@ -68,6 +68,12 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
 
   async resultStep(stepContext) {
     const data = stepContext.options;
+    if (!Validator.isValidDay(stepContext.result)) {
+      return await stepContext.replaceDialog(
+        "getConferimentByCityAndDayDialog",
+        data
+      );
+    }
     data.day = stepContext.result;
     const result = await axios({
       method: "post",

@@ -12,6 +12,7 @@ const {
 } = require("botbuilder-dialogs");
 const { InputHints, MessageFactory } = require("botbuilder");
 const axios = require("axios");
+const { Validator } = require("../resources/validator");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -71,6 +72,9 @@ class AddConferimentDialog extends CancelAndHelpDialog {
   async typeStep(stepContext) {
     const data = stepContext.options;
 
+    if (!Validator.isValidDay(stepContext.result)) {
+      return await stepContext.replaceDialog("addConferimentDialog", data);
+    }
     data.day = stepContext.result;
 
     if (!data.type) {
@@ -89,6 +93,9 @@ class AddConferimentDialog extends CancelAndHelpDialog {
   async confirmStep(stepContext) {
     const data = stepContext.options;
 
+    if (!Validator.isValidType(stepContext.result)) {
+      return await stepContext.replaceDialog("addConferimentDialog", data);
+    }
     data.type = stepContext.result;
 
     const messageText = `Please confirm, you said that the "${data.type}" in "${data.city}" is put out the door on "${data.day}". Is this correct?`;
