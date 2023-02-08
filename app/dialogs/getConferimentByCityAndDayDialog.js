@@ -17,9 +17,9 @@ const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
 const WATERFALL_DIALOG = "waterfallDialog";
 
-class GetConferimentDialog extends CancelAndHelpDialog {
+class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
   constructor(id) {
-    super(id || "getConferimentDialog");
+    super(id || "getConferimentByCityAndDayDialog");
 
     this.addDialog(new TextPrompt(TEXT_PROMPT))
       .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
@@ -91,4 +91,5 @@ class GetConferimentDialog extends CancelAndHelpDialog {
   }
 }
 
-module.exports.GetConferimentDialog = GetConferimentDialog;
+module.exports.GetConferimentByCityAndDayDialog =
+  GetConferimentByCityAndDayDialog;

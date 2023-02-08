@@ -32,12 +32,15 @@ const { DialogAndWelcomeBot } = require("./bots/dialogAndWelcomeBot");
 
 // This bot's main dialog.
 const { MainDialog } = require("./dialogs/mainDialog");
-const { GetConferimentDialog } = require("./dialogs/getConferimentDialog");
+const {
+  GetConferimentByCityAndDayDialog,
+} = require("./dialogs/getConferimentByCityAndDayDialog");
 const { AddConferimentDialog } = require("./dialogs/addConferimentDialog");
 const {
   AddAlertSchedulingDialog,
 } = require("./dialogs/addAlertSchedulingDialog");
-const GET_CONFERIMENT_DIALOG = "getConferimentDialog";
+const GET_CONFERIMENT_BY_CITY_AND_DAY_DIALOG =
+  "getConferimentByCityAndDayDialog";
 const ADD_CONFERIMENT_DIALOG = "addConferimentDialog";
 const ADD_ALERT_SCHEDULING_DIALOG = "addAlertSchedulingDialog";
 
@@ -111,14 +114,16 @@ const luisConfig = {
 const cityTrashBotRecognizer = new CityTrashBotRecognizer(luisConfig);
 
 // Create the main dialog.
-const getConferimentDialog = new GetConferimentDialog(GET_CONFERIMENT_DIALOG);
+const getConferimentByCityAndDayDialog = new GetConferimentByCityAndDayDialog(
+  GET_CONFERIMENT_BY_CITY_AND_DAY_DIALOG
+);
 const addConferimentDialog = new AddConferimentDialog(ADD_CONFERIMENT_DIALOG);
 const addAlertSchedulingDialog = new AddAlertSchedulingDialog(
   ADD_ALERT_SCHEDULING_DIALOG
 );
 const dialog = new MainDialog(
   cityTrashBotRecognizer,
-  getConferimentDialog,
+  getConferimentByCityAndDayDialog,
   addConferimentDialog,
   addAlertSchedulingDialog
 );

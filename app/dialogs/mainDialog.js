@@ -23,7 +23,7 @@ const TEXT_PROMPT = "TextPrompt";
 class MainDialog extends ComponentDialog {
   constructor(
     cityTrashBotRecognizer,
-    getConferimentDialog,
+    getConferimentByCityAndDayDialog,
     addConferimentDialog,
     addAlertSchedulingDialog
   ) {
@@ -35,9 +35,9 @@ class MainDialog extends ComponentDialog {
       );
     this.cityTrashBotRecognizer = cityTrashBotRecognizer;
 
-    if (!getConferimentDialog)
+    if (!getConferimentByCityAndDayDialog)
       throw new Error(
-        "[MainDialog]: Missing parameter 'getConferimentDialog' is required"
+        "[MainDialog]: Missing parameter 'getConferimentByCityAndDayDialog' is required"
       );
 
     if (!addConferimentDialog)
@@ -53,7 +53,7 @@ class MainDialog extends ComponentDialog {
     // Define the main dialog and its related components.
     // This is a sample "book a flight" dialog.
     this.addDialog(new TextPrompt(TEXT_PROMPT))
-      .addDialog(getConferimentDialog)
+      .addDialog(getConferimentByCityAndDayDialog)
       .addDialog(addConferimentDialog)
       .addDialog(addAlertSchedulingDialog)
       .addDialog(
@@ -118,7 +118,7 @@ class MainDialog extends ComponentDialog {
         {
           type: ActionTypes.ImBack,
           title: "Let me know what to put out of the door",
-          value: "GetConferiment",
+          value: "GetConferimentByCityAndDay",
         },
         {
           type: ActionTypes.ImBack,
@@ -158,13 +158,19 @@ class MainDialog extends ComponentDialog {
       stepContext.context
     );
     const luisIntent = LuisRecognizer.topIntent(luisResult);
-    if (option == "GetConferiment" || luisIntent == "GetConferiment") {
+    if (
+      option == "GetConferimentByCityAndDay" ||
+      luisIntent == "GetConferimentByCityAndDay"
+    ) {
       const data = {};
 
       data.city = this.cityTrashBotRecognizer.getCity(luisResult);
       data.day = this.cityTrashBotRecognizer.getDay(luisResult);
 
-      return await stepContext.beginDialog("getConferimentDialog", data);
+      return await stepContext.beginDialog(
+        "getConferimentByCityAndDayDialog",
+        data
+      );
     } else if (option == "AddConferiment" || luisIntent == "AddConferiment") {
       const data = {};
 
