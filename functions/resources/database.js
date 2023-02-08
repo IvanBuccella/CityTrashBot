@@ -176,9 +176,7 @@ class Database {
     if (inputDay === undefined) return undefined;
     inputDay = inputDay.toLowerCase().replace(/\s+/g, "");
     if (inputDay.length == 0) return undefined;
-    const today = new Date().getDay().toLocaleString("en-US", {
-      timeZone: "Europe/Rome",
-    });
+    const today = new Date().getDay();
     if (inputDay == "yesterday") {
       return weekdays[today - 1];
     } else if (inputDay == "today") {
