@@ -40,8 +40,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
     const data = stepContext.options;
 
     if (!data.city) {
-      const messageText =
-        "Which city would you know what to put out the door of?";
+      const messageText = "Let me know the city.";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -58,8 +57,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
     data.city = stepContext.result;
 
     if (!data.email) {
-      const messageText =
-        "Let me know the email where you want to receive the alert everyday.";
+      const messageText = "Let me know the email your email address.";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -77,7 +75,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
 
     if (!data.time) {
       const messageText =
-        "Let me know at what time do you wanna receive the alert (HH:ss 24h format).";
+        "Let me know the time. (hh:ss - 24h format - Europe/Rome timezone).";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -93,7 +91,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
 
     data.time = stepContext.result;
 
-    const messageText = `Please confirm, you're telling me that you wanna receive an alert on the email address ${data.email}, every day at ${data.time}, for the city of ${data.city}. Is this correct?`;
+    const messageText = `Please confirm, you want to receive the alerts on the email address "${data.email}", every day at "${data.time}", for the city "${data.city}". Is this correct?`;
     const msg = MessageFactory.text(
       messageText,
       messageText,
@@ -114,7 +112,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
       if (result.data == 0) {
         msg = `Ops, I'm sorry but I cannot schedule depending on your choices.`;
       } else {
-        msg = `Thank you! I have saved your schedule.`;
+        msg = `Thank you! I have saved your request.`;
       }
       await stepContext.context.sendActivity(
         msg,

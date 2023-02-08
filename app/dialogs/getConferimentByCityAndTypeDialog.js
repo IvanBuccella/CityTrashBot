@@ -17,18 +17,16 @@ const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
 const WATERFALL_DIALOG = "waterfallDialog";
 
-class AddConferimentDialog extends CancelAndHelpDialog {
+class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
   constructor(id) {
-    super(id || "addConferimentDialog");
+    super(id || "getConferimentByCityAndTypeDialog");
 
     this.addDialog(new TextPrompt(TEXT_PROMPT))
       .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
       .addDialog(
         new WaterfallDialog(WATERFALL_DIALOG, [
           this.cityStep.bind(this),
-          this.dayStep.bind(this),
           this.typeStep.bind(this),
-          this.confirmStep.bind(this),
           this.resultStep.bind(this),
         ])
       );
@@ -51,27 +49,10 @@ class AddConferimentDialog extends CancelAndHelpDialog {
     return await stepContext.next(data.city);
   }
 
-  async dayStep(stepContext) {
-    const data = stepContext.options;
-
-    data.city = stepContext.result;
-
-    if (!data.day) {
-      const messageText = "Let me know when.";
-      const msg = MessageFactory.text(
-        messageText,
-        messageText,
-        InputHints.ExpectingInput
-      );
-      return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
-    }
-    return await stepContext.next(data.day);
-  }
-
   async typeStep(stepContext) {
     const data = stepContext.options;
 
-    data.day = stepContext.result;
+    data.city = stepContext.result;
 
     if (!data.type) {
       const messageText =
@@ -86,40 +67,21 @@ class AddConferimentDialog extends CancelAndHelpDialog {
     return await stepContext.next(data.type);
   }
 
-  async confirmStep(stepContext) {
-    const data = stepContext.options;
-
-    data.type = stepContext.result;
-
-    const messageText = `Please confirm, you said that the "${data.type}" in "${data.city}" is put out the door on "${data.day}". Is this correct?`;
-    const msg = MessageFactory.text(
-      messageText,
-      messageText,
-      InputHints.ExpectingInput
-    );
-    return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });
-  }
-
   async resultStep(stepContext) {
-    if (stepContext.result) {
-      const data = stepContext.options;
-      const result = await axios({
-        method: "post",
-        url: process.env.FUNCTION_ADD_CONFERIMENT_ENDPOINT,
-        data: data,
-      });
-      let msg = "";
-      if (result.data == 0) {
-        msg = `Thank you, but I already knew :)`;
-      } else {
-        msg = `Thank you! I have stored your info.`;
-      }
-      await stepContext.context.sendActivity(
-        msg,
-        msg,
-        InputHints.IgnoringInput
-      );
+    const data = stepContext.options;
+    data.type = stepContext.result;
+    const result = await axios({
+      method: "post",
+      url: process.env.FUNCTION_GET_CONFERIMENT_ENDPOINT,
+      data: data,
+    });
+    let msg;
+    if (result.data) {
+      msg = `You have to put the "${data.type}" out the door in "${data.city}" on "${result.data}".`;
+    } else {
+      msg = `Sorry, I don't know when to put the "${data.type}" out the door in "${data.city}" :( But you can train me!`;
     }
+    await stepContext.context.sendActivity(msg, msg, InputHints.IgnoringInput);
     return await stepContext.endDialog();
   }
 
@@ -129,4 +91,5 @@ class AddConferimentDialog extends CancelAndHelpDialog {
   }
 }
 
-module.exports.AddConferimentDialog = AddConferimentDialog;
+module.exports.GetConferimentByCityAndTypeDialog =
+  GetConferimentByCityAndTypeDialog;

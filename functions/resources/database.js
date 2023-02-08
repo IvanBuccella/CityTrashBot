@@ -29,23 +29,55 @@ class Database {
     params.day = this.validateInputDay(params.day);
     params.type = this.validateInputDay(params.type);
     try {
+      if (
+        params.city == undefined ||
+        params.day == undefined ||
+        params.type == undefined
+      ) {
+        return null;
+      }
+      await this.client.connect();
+      return await this.client
+        .db(process.env.DATABASE_NAME)
+        .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
+        .find({ city: params.city, day: params.day, type: params.type })
+        .toArray();
+    } finally {
+      await this.client.close();
+    }
+  }
+
+  async getConferimentType(params) {
+    params.city = this.validateInputCity(params.city);
+    params.day = this.validateInputDay(params.day);
+    try {
       if (params.day == undefined || params.city == undefined) {
         return null;
       }
       await this.client.connect();
-      if (params.type == undefined) {
-        return await this.client
-          .db(process.env.DATABASE_NAME)
-          .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
-          .find({ city: params.city, day: params.day })
-          .toArray();
-      } else {
-        return await this.client
-          .db(process.env.DATABASE_NAME)
-          .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
-          .find({ city: params.city, day: params.day, type: params.type })
-          .toArray();
+      return await this.client
+        .db(process.env.DATABASE_NAME)
+        .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
+        .find({ city: params.city, day: params.day })
+        .toArray();
+    } finally {
+      await this.client.close();
+    }
+  }
+
+  async getConferimentDay(params) {
+    params.city = this.validateInputCity(params.city);
+    params.type = this.validateInputDay(params.type);
+    try {
+      if (params.city == undefined || params.type == undefined) {
+        return null;
       }
+      await this.client.connect();
+      return await this.client
+        .db(process.env.DATABASE_NAME)
+        .collection(process.env.DATABASE_CONFERIMENT_COLLECTION)
+        .find({ city: params.city, type: params.type })
+        .toArray();
     } finally {
       await this.client.close();
     }

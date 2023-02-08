@@ -38,8 +38,7 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     const data = stepContext.options;
 
     if (!data.city) {
-      const messageText =
-        "Which city would you know what to put out the door of?";
+      const messageText = "Let me know the city.";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -56,7 +55,7 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     data.city = stepContext.result;
 
     if (!data.day) {
-      const messageText = "When would you put out your waste?";
+      const messageText = "Let me know when.";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -77,9 +76,9 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     });
     let msg;
     if (result.data) {
-      msg = `You have to put out the ${result.data}.`;
+      msg = `You have to put the "${result.data}" out the door in "${data.city}" on "${data.day}".`;
     } else {
-      msg = `Sorry, I don't know what to put out in that day.`;
+      msg = `I'm sorry, I don't know :( But you can train me!`;
     }
     await stepContext.context.sendActivity(msg, msg, InputHints.IgnoringInput);
     return await stepContext.endDialog();

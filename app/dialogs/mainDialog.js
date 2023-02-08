@@ -24,6 +24,7 @@ class MainDialog extends ComponentDialog {
   constructor(
     cityTrashBotRecognizer,
     getConferimentByCityAndDayDialog,
+    getConferimentByCityAndTypeDialog,
     addConferimentDialog,
     addAlertSchedulingDialog
   ) {
@@ -40,6 +41,11 @@ class MainDialog extends ComponentDialog {
         "[MainDialog]: Missing parameter 'getConferimentByCityAndDayDialog' is required"
       );
 
+    if (!getConferimentByCityAndTypeDialog)
+      throw new Error(
+        "[MainDialog]: Missing parameter 'getConferimentByCityAndTypeDialog' is required"
+      );
+
     if (!addConferimentDialog)
       throw new Error(
         "[MainDialog]: Missing parameter 'addConferimentDialog' is required"
@@ -54,6 +60,7 @@ class MainDialog extends ComponentDialog {
     // This is a sample "book a flight" dialog.
     this.addDialog(new TextPrompt(TEXT_PROMPT))
       .addDialog(getConferimentByCityAndDayDialog)
+      .addDialog(getConferimentByCityAndTypeDialog)
       .addDialog(addConferimentDialog)
       .addDialog(addAlertSchedulingDialog)
       .addDialog(
@@ -98,7 +105,7 @@ class MainDialog extends ComponentDialog {
 
     const messageText = stepContext.options.restartMsg
       ? stepContext.options.restartMsg
-      : 'What can I help you with today?\nIf you want to know what I can do for you write "menu".';
+      : 'What can I help you with today? \n\n If you want to know what I can do for you write "menu".';
     const promptMessage = MessageFactory.text(
       messageText,
       messageText,
@@ -117,17 +124,22 @@ class MainDialog extends ComponentDialog {
       const buttons = [
         {
           type: ActionTypes.ImBack,
-          title: "Let me know what to put out of the door",
+          title: "What to put out of the door",
           value: "GetConferimentByCityAndDay",
         },
         {
           type: ActionTypes.ImBack,
-          title: "Train the bot about your municipality",
+          title: "When to put out of the door",
+          value: "GetConferimentByCityAndType",
+        },
+        {
+          type: ActionTypes.ImBack,
+          title: "Train the bot",
           value: "AddConferiment",
         },
         {
           type: ActionTypes.ImBack,
-          title: "Schedule an alert for always know what to put out the door!",
+          title: "Schedule an alert",
           value: "AddAlertScheduling",
         },
       ];
@@ -169,6 +181,19 @@ class MainDialog extends ComponentDialog {
 
       return await stepContext.beginDialog(
         "getConferimentByCityAndDayDialog",
+        data
+      );
+    } else if (
+      option == "GetConferimentByCityAndType" ||
+      luisIntent == "GetConferimentByCityAndType"
+    ) {
+      const data = {};
+
+      data.city = this.cityTrashBotRecognizer.getCity(luisResult);
+      data.type = this.cityTrashBotRecognizer.getType(luisResult);
+
+      return await stepContext.beginDialog(
+        "getConferimentByCityAndTypeDialog",
         data
       );
     } else if (option == "AddConferiment" || luisIntent == "AddConferiment") {
