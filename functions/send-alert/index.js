@@ -23,7 +23,7 @@ module.exports = async function (context, sendEmailMessage) {
       sender: process.env.SENDER_EMAIL_ADDRESS,
       content: {
         subject: "City Trash Bot Daily Reminder",
-        plainText: `Hey! I'm here to remember that today you have to put out the door ${type} in ${sendEmailMessage.city}.`,
+        plainText: `Hey! I'm here to remember that today you have to put the "${type}" out the door in "${sendEmailMessage.city}."`,
       },
       recipients: {
         to: [
