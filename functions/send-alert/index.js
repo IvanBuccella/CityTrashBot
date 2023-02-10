@@ -5,8 +5,9 @@ module.exports = async function (context, sendEmailMessage) {
   if (!sendEmailMessage) return;
 
   sendEmailMessage.day = "today";
-
-  const result = await Database.getInstance().getConferiment(sendEmailMessage);
+  const result = await Database.getInstance().getConferimentType(
+    sendEmailMessage
+  );
   if (!result || result.length == 0) return;
 
   let type = "";
