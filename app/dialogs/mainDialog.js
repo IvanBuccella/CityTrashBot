@@ -129,7 +129,7 @@ class MainDialog extends ComponentDialog {
         },
         {
           type: ActionTypes.ImBack,
-          title: "When to put out of the door something",
+          title: "When to put something out of the door",
           value: "GetConferimentByCityAndType",
         },
         {
