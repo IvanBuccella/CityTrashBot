@@ -117,7 +117,7 @@ class MainDialog extends ComponentDialog {
   async menuStep(step) {
     const message = step.result;
 
-    if (message === "menu") {
+    if (message.toLowerCase() === "menu") {
       const reply = {
         type: ActivityTypes.Message,
       };
