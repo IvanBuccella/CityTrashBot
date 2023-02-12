@@ -13,6 +13,9 @@ const {
 const { InputHints, MessageFactory } = require("botbuilder");
 const axios = require("axios");
 const { Validator } = require("../resources/validator");
+const {
+  CityTrashBotContentModerator,
+} = require("../recognizers/contentModerator");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -53,6 +56,12 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
   async typeStep(stepContext) {
     const data = stepContext.options;
 
+    if (await CityTrashBotContentModerator.isOffensive(stepContext.result)) {
+      return await stepContext.replaceDialog(
+        "getConferimentByCityAndTypeDialog",
+        data
+      );
+    }
     data.city = stepContext.result;
 
     if (!data.type) {
@@ -71,7 +80,10 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
   async resultStep(stepContext) {
     const data = stepContext.options;
 
-    if (!Validator.isValidType(stepContext.result)) {
+    if (
+      (await CityTrashBotContentModerator.isOffensive(stepContext.result)) ||
+      !Validator.isValidType(stepContext.result)
+    ) {
       return await stepContext.replaceDialog(
         "getConferimentByCityAndTypeDialog",
         data

@@ -15,6 +15,9 @@ const { Validator } = require("../resources/validator");
 const {
   CityTrashBotSpeechRecognizer,
 } = require("../recognizers/speechRecognizer");
+const {
+  CityTrashBotContentModerator,
+} = require("../recognizers/contentModerator");
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
 const WATERFALL_DIALOG = "waterfallDialog";
@@ -54,6 +57,12 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
   async dayStep(stepContext) {
     const data = stepContext.options;
 
+    if (await CityTrashBotContentModerator.isOffensive(stepContext.result)) {
+      return await stepContext.replaceDialog(
+        "getConferimentByCityAndDayDialog",
+        data
+      );
+    }
     data.city = stepContext.result;
 
     if (!data.day) {
@@ -70,7 +79,10 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
 
   async resultStep(stepContext) {
     const data = stepContext.options;
-    if (!Validator.isValidDay(stepContext.result)) {
+    if (
+      (await CityTrashBotContentModerator.isOffensive(stepContext.result)) ||
+      !Validator.isValidDay(stepContext.result)
+    ) {
       return await stepContext.replaceDialog(
         "getConferimentByCityAndDayDialog",
         data

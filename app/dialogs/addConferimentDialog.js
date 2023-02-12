@@ -13,6 +13,9 @@ const {
 const { InputHints, MessageFactory } = require("botbuilder");
 const axios = require("axios");
 const { Validator } = require("../resources/validator");
+const {
+  CityTrashBotContentModerator,
+} = require("../recognizers/contentModerator");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -55,6 +58,9 @@ class AddConferimentDialog extends CancelAndHelpDialog {
   async dayStep(stepContext) {
     const data = stepContext.options;
 
+    if (await CityTrashBotContentModerator.isOffensive(stepContext.result)) {
+      return await stepContext.replaceDialog("addConferimentDialog", data);
+    }
     data.city = stepContext.result;
 
     if (!data.day) {
@@ -72,7 +78,10 @@ class AddConferimentDialog extends CancelAndHelpDialog {
   async typeStep(stepContext) {
     const data = stepContext.options;
 
-    if (!Validator.isValidDay(stepContext.result)) {
+    if (
+      (await CityTrashBotContentModerator.isOffensive(stepContext.result)) ||
+      !Validator.isValidDay(stepContext.result)
+    ) {
       return await stepContext.replaceDialog("addConferimentDialog", data);
     }
     data.day = stepContext.result;
@@ -93,7 +102,10 @@ class AddConferimentDialog extends CancelAndHelpDialog {
   async confirmStep(stepContext) {
     const data = stepContext.options;
 
-    if (!Validator.isValidType(stepContext.result)) {
+    if (
+      (await CityTrashBotContentModerator.isOffensive(stepContext.result)) ||
+      !Validator.isValidType(stepContext.result)
+    ) {
       return await stepContext.replaceDialog("addConferimentDialog", data);
     }
     data.type = stepContext.result;

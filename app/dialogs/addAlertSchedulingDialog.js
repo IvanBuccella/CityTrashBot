@@ -13,6 +13,9 @@ const {
 const { InputHints, MessageFactory } = require("botbuilder");
 const axios = require("axios");
 const { Validator } = require("../resources/validator");
+const {
+  CityTrashBotContentModerator,
+} = require("../recognizers/contentModerator");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -55,6 +58,9 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
   async emailStep(stepContext) {
     const data = stepContext.options;
 
+    if (await CityTrashBotContentModerator.isOffensive(stepContext.result)) {
+      return await stepContext.replaceDialog("addAlertSchedulingDialog", data);
+    }
     data.city = stepContext.result;
 
     if (!data.email) {
@@ -72,7 +78,10 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
   async timeStep(stepContext) {
     const data = stepContext.options;
 
-    if (!Validator.isValidEmail(stepContext.result)) {
+    if (
+      (await CityTrashBotContentModerator.isOffensive(stepContext.result)) ||
+      !Validator.isValidEmail(stepContext.result)
+    ) {
       return await stepContext.replaceDialog("addAlertSchedulingDialog", data);
     }
     data.email = stepContext.result;
@@ -93,7 +102,10 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
   async confirmStep(stepContext) {
     const data = stepContext.options;
 
-    if (!Validator.isValidTime(stepContext.result)) {
+    if (
+      (await CityTrashBotContentModerator.isOffensive(stepContext.result)) ||
+      !Validator.isValidTime(stepContext.result)
+    ) {
       return await stepContext.replaceDialog("addAlertSchedulingDialog", data);
     }
     data.time = stepContext.result;

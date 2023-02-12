@@ -16,7 +16,9 @@ const {
   TextPrompt,
   WaterfallDialog,
 } = require("botbuilder-dialogs");
-
+const {
+  CityTrashBotContentModerator,
+} = require("../recognizers/contentModerator.js");
 const MAIN_WATERFALL_DIALOG = "mainWaterfallDialog";
 const TEXT_PROMPT = "TextPrompt";
 
@@ -84,7 +86,6 @@ class MainDialog extends ComponentDialog {
   async run(turnContext, accessor) {
     const dialogSet = new DialogSet(accessor);
     dialogSet.add(this);
-
     const dialogContext = await dialogSet.createContext(turnContext);
     const results = await dialogContext.continueDialog();
     if (results.status === DialogTurnStatus.empty) {
@@ -116,6 +117,8 @@ class MainDialog extends ComponentDialog {
 
   async menuStep(step) {
     const message = step.result;
+
+    await CityTrashBotContentModerator.isOffensive(message);
 
     if (message.toLowerCase() === "menu") {
       const reply = {
@@ -166,6 +169,9 @@ class MainDialog extends ComponentDialog {
     }
 
     const option = stepContext.result;
+
+    await CityTrashBotContentModerator.isOffensive(option);
+
     const luisResult = await this.cityTrashBotRecognizer.executeLuisQuery(
       stepContext.context
     );

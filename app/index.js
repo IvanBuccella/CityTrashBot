@@ -65,19 +65,24 @@ const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
-  // This check writes out errors to console log .vs. app insights.
-  // NOTE: In production environment, you should consider logging this to Azure
-  //       application insights.
+  try {
+    let data = JSON.parse(error.message);
+    if (data.isOffensive) {
+      let message = "Please, don't be rude! You can hurt me :(";
+      return await context.sendActivity(
+        message,
+        message,
+        InputHints.ExpectingInput
+      );
+    }
+  } catch (e) {}
   console.error(`\n [onTurnError] unhandled error: ${error}`);
-
-  // Send a trace activity, which will be displayed in Bot Framework Emulator
   await context.sendTraceActivity(
     "OnTurnError Trace",
     `${error}`,
     "https://www.botframework.com/schemas/error",
     "TurnError"
   );
-
   // Send a message to the user
   let onTurnErrorMessage = "The bot encountered an error or bug.";
   await context.sendActivity(
@@ -92,7 +97,6 @@ const onTurnErrorHandler = async (context, error) => {
     onTurnErrorMessage,
     InputHints.ExpectingInput
   );
-  // Clear out state
   await conversationState.delete(context);
 };
 
