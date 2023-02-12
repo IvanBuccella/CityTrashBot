@@ -28,7 +28,10 @@ class CityTrashBotSpeechRecognizer {
     );
 
     ret = await speakTextAsync(text).catch((result) => {
-      if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
+      if (
+        result.reason != undefined &&
+        result.reason === sdk.ResultReason.SynthesizingAudioCompleted
+      ) {
         return Buffer.from(result.audioData).toString("base64");
       }
       return null;
