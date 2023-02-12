@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 const {
   TimexProperty,
 } = require("@microsoft/recognizers-text-data-types-timex-expression");
@@ -10,9 +9,12 @@ const {
   TextPrompt,
   WaterfallDialog,
 } = require("botbuilder-dialogs");
-const { InputHints, MessageFactory } = require("botbuilder");
+const { InputHints, MessageFactory, ActivityTypes } = require("botbuilder");
 const axios = require("axios");
 const { Validator } = require("../resources/validator");
+const {
+  CityTrashBotSpeechRecognizer,
+} = require("../recognizers/speechRecognizer");
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
 const WATERFALL_DIALOG = "waterfallDialog";
@@ -86,7 +88,22 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     } else {
       msg = `I'm sorry, I don't know :( But you can train me!`;
     }
-    await stepContext.context.sendActivity(msg, msg, InputHints.IgnoringInput);
+
+    let message = {
+      text: msg,
+      type: ActivityTypes.Message,
+    };
+    let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(msg);
+    if (audioFile != null) {
+      message.attachments = [
+        {
+          name: "audio.wav",
+          contentType: "audio/wav",
+          contentUrl: `data:audio/wav;base64,${audioFile}`,
+        },
+      ];
+    }
+    await stepContext.context.sendActivity(message);
     return await stepContext.endDialog();
   }
 
