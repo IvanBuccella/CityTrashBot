@@ -10,12 +10,15 @@ const {
   TextPrompt,
   WaterfallDialog,
 } = require("botbuilder-dialogs");
-const { InputHints, MessageFactory } = require("botbuilder");
+const { InputHints, MessageFactory, ActivityTypes } = require("botbuilder");
 const axios = require("axios");
 const { Validator } = require("../resources/validator");
 const {
   CityTrashBotContentModerator,
 } = require("../recognizers/contentModerator");
+const {
+  CityTrashBotSpeechRecognizer,
+} = require("../recognizers/speechRecognizer");
 
 const CONFIRM_PROMPT = "confirmPrompt";
 const TEXT_PROMPT = "textPrompt";
@@ -133,11 +136,22 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
       } else {
         msg = `Thank you! I have saved your request.`;
       }
-      await stepContext.context.sendActivity(
-        msg,
-        msg,
-        InputHints.IgnoringInput
-      );
+
+      let message = {
+        text: msg,
+        type: ActivityTypes.Message,
+      };
+      let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(msg);
+      if (audioFile != null) {
+        message.attachments = [
+          {
+            name: Date.now() + ".wav",
+            contentType: "audio/wav",
+            contentUrl: `data:audio/wav;base64,${audioFile}`,
+          },
+        ];
+      }
+      await stepContext.context.sendActivity(message);
     }
     return await stepContext.endDialog();
   }

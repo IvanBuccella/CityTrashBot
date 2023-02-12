@@ -109,7 +109,7 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     if (audioFile != null) {
       message.attachments = [
         {
-          name: "audio.wav",
+          name: Date.now() + ".wav",
           contentType: "audio/wav",
           contentUrl: `data:audio/wav;base64,${audioFile}`,
         },
