@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require("botbuilder");
+const axios = require("axios");
+const {
+  CityTrashBotSpeechRecognizer,
+} = require("../recognizers/speechRecognizer");
 
 class DialogBot extends ActivityHandler {
   /**
@@ -27,6 +31,25 @@ class DialogBot extends ActivityHandler {
     this.dialogState = this.conversationState.createProperty("DialogState");
 
     this.onMessage(async (context, next) => {
+      if (
+        context.activity.text == undefined &&
+        context.activity.attachments != undefined &&
+        context.activity.attachments.length > 0 &&
+        context.activity.attachments[0].contentUrl.length > 0
+      ) {
+        const fileURL = context.activity.attachments[0].contentUrl;
+        await axios
+          .get(fileURL, {
+            responseType: "arraybuffer",
+          })
+          .then(async (result) => {
+            let text = await CityTrashBotSpeechRecognizer.recognizeAudio(
+              result.data
+            );
+            if (text == null) return;
+            context.activity.text = text;
+          });
+      }
       await this.dialog.run(context, this.dialogState);
       await next();
     });
