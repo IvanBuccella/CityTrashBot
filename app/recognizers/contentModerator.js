@@ -9,6 +9,13 @@ https://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/tex
 class CityTrashBotContentModerator {
   static async isOffensive(text) {
     if (text == undefined || text.length == 0) return false;
+    if (text.includes("***")) {
+      throw new Error(
+        JSON.stringify({
+          isOffensive: true,
+        })
+      );
+    }
     const result = await axios({
       method: "post",
       url: process.env.CONTENT_MODERATOR_ENDPOINT,
