@@ -49,7 +49,6 @@ class DialogBot extends ActivityHandler {
             let text = await CityTrashBotSpeechRecognizer.recognizeAudio(
               fs.readFileSync(filename)
             );
-            console.log("Translated text:" + text);
             if (text == null) return;
             context.activity.text = text;
           }
