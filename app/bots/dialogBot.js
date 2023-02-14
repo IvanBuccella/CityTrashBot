@@ -6,6 +6,8 @@ const axios = require("axios");
 const {
   CityTrashBotSpeechRecognizer,
 } = require("../recognizers/speechRecognizer");
+const ffmpeg = require("../resources/ffmpeg");
+const fs = require("fs");
 
 class DialogBot extends ActivityHandler {
   /**
@@ -38,17 +40,17 @@ class DialogBot extends ActivityHandler {
         context.activity.attachments[0].contentUrl.length > 0
       ) {
         const fileURL = context.activity.attachments[0].contentUrl;
-        await axios
-          .get(fileURL, {
-            responseType: "arraybuffer",
-          })
-          .then(async (result) => {
-            let text = await CityTrashBotSpeechRecognizer.recognizeAudio(
-              result.data
-            );
-            if (text == null) return;
-            context.activity.text = text;
-          });
+        const response = await fetch(fileURL);
+        if (response.body) {
+          let filename = "SpeechTotextTempFile.wav";
+          ffmpeg(response.body).output(filename).format("wav").save(filename);
+          let text = await CityTrashBotSpeechRecognizer.recognizeAudio(
+            fs.readFileSync(filename)
+          );
+          console.log("Translated text:" + text);
+          if (text == null) return;
+          context.activity.text = text;
+        }
       }
       await this.dialog.run(context, this.dialogState);
       await next();

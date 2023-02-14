@@ -45,17 +45,9 @@ class CityTrashBotSpeechRecognizer {
     return ret;
   }
 
-  static async recognizeAudio(audioFile) {
+  static async recognizeAudio(audioBuffer) {
     let text = null;
-    const decodeAudio = promisifyManyArgs(
-      new AudioContext().decodeAudioData,
-      true
-    );
-    let decodedAudio = await decodeAudio(audioFile).catch((result) => {
-      return result;
-    });
-    let wav = audioBufferToWav(decodedAudio);
-    let audioConfig = sdk.AudioConfig.fromWavFileInput(Buffer.from(wav));
+    let audioConfig = sdk.AudioConfig.fromWavFileInput(audioBuffer);
     let speechRecognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
     const recognizeOnceAsync = promisifyManyArgs(
       speechRecognizer.recognizeOnceAsync.bind(speechRecognizer),
