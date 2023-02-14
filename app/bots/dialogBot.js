@@ -40,16 +40,21 @@ class DialogBot extends ActivityHandler {
         context.activity.attachments[0].contentUrl.length > 0
       ) {
         const fileURL = context.activity.attachments[0].contentUrl;
-        const response = await fetch(fileURL);
-        if (response.body) {
-          let filename = "SpeechTotextTempFile.wav";
-          ffmpeg(response.body).output(filename).format("wav").save(filename);
-          let text = await CityTrashBotSpeechRecognizer.recognizeAudio(
-            fs.readFileSync(filename)
-          );
-          console.log("Translated text:" + text);
-          if (text == null) return;
-          context.activity.text = text;
+        try {
+          const response = await fetch(fileURL);
+          if (response.body) {
+            let filename = "SpeechTotextTempFile.wav";
+            fs.appendFile(filename, "", function (err) {});
+            ffmpeg(response.body).output(filename).format("wav").save(filename);
+            let text = await CityTrashBotSpeechRecognizer.recognizeAudio(
+              fs.readFileSync(filename)
+            );
+            console.log("Translated text:" + text);
+            if (text == null) return;
+            context.activity.text = text;
+          }
+        } catch (error) {
+          console.log(error);
         }
       }
       await this.dialog.run(context, this.dialogState);
