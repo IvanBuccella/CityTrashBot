@@ -106,7 +106,7 @@ class MainDialog extends ComponentDialog {
 
     const messageText = stepContext.options.restartMsg
       ? stepContext.options.restartMsg
-      : 'What can I help you with today? \n\n If you want to know what I can do for you write "menu".';
+      : 'What can I help you with today? \n\n If you want to know what I can do for you write "menu" or send me an audio message.';
     const promptMessage = MessageFactory.text(
       messageText,
       messageText,
