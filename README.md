@@ -1,11 +1,21 @@
 # City Trash Bot
 
-Dry, Multi-material, Wet, Paper, Glass? What should I put out the door today in Rome? Feel free to ask CityTrashBot!
-CityTrashBot is the bot to stay up to date on waste disposal in your municipality.
-It will be enough to interact with him and immediately receive a detailed answer.
-Furthermore, you will be able to receive push notifications based on your preferences agreed with CityTrashBot, you can write or talk to him but, please, don't be bad, he can be hurt.
+Dry, Multi-material, Wet, Paper, Glass... "What should I put out the door today?", "When should I put the glass out the door?" Feel free to ask CityTrashBot!
+CityTrashBot is a Telegram bot to stay up to date on waste disposal in your municipality.
+It will be enough to interact with it, via text or audio message, and immediately receive a detailed answer; but, please, be moderate with your words, it might take offense.
+Furthermore, it's possible to receive daily waste disposal email notifications based on your preferences agreed with CityTrashBot, and you can train it about waste disposal in a certain municipality.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com) and uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding.
+The bot has been created using several [Azure](https://azure.microsoft.com) services, in particular:
+
+- [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding;
+- [Bot Service](https://azure.microsoft.com/en-us/products/bot-services), to build the bot;
+- [Web App Service](https://azure.microsoft.com/en-us/products/app-service/web/), to implement the bot business logic;
+- [Functions](https://azure.microsoft.com/en-us/products/functions/), to read/write the stored data and manage the notifications system;
+- [Content Moderator](https://azure.microsoft.com/en-us/products/cognitive-services/content-moderator), to moderate the audio and text messages received from the bot;
+- [Speech Service](https://azure.microsoft.com/en-us/products/cognitive-services/speech-services/), to allow the bot to receive and send audio messages;
+- [Cosmos DB](https://azure.microsoft.com/en-us/products/cosmos-db/), to store the bot data into collections;
+- [Service Bus](https://azure.microsoft.com/en-us/products/service-bus/), to allow communication between the different functions;
+- [Communication Services & Email Communication Service](https://azure.microsoft.com/en-us/products/communication-services/), to deliver the emails to the bot users.
 
 ## Tutorial Structure
 
@@ -31,6 +41,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com) an
 - The [Bot Framework SDK](https://github.com/microsoft/botbuilder-js) for JavaScript
 - [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator)
 - [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
+- [Azure Speech SDK](https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/setup-platform?pivots=programming-language-javascript) for JavaScript
 
 ### Repository
 
