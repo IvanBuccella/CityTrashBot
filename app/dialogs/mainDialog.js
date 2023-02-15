@@ -70,7 +70,7 @@ class MainDialog extends ComponentDialog {
           this.introStep.bind(this),
           this.menuStep.bind(this),
           this.actStep.bind(this),
-          this.finalStep.bind(this),
+          this.loopStep.bind(this),
         ])
       );
 
@@ -237,7 +237,7 @@ class MainDialog extends ComponentDialog {
    * This is the final step in the main waterfall dialog.
    * It wraps up the sample "book a flight" interaction with a simple confirmation.
    */
-  async finalStep(stepContext) {
+  async loopStep(stepContext) {
     // Restart the main dialog with a different message the second time around
     return await stepContext.replaceDialog(this.initialDialogId, {
       restartMsg:
