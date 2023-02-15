@@ -129,11 +129,11 @@ You can connect to the bot using Bot Framework Emulator:
 
 ##### Resource Group
 
-Create a new resource group named `city-trash-bot-resource-group` as described [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
+Create a new resource group named `city-trash-bot-resource-group` as described [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal#create-resource-groups).
 
 ###### Web App
 
-Create a new Azure Web App Service resource named `city-trash-bot-app` as described [here](https://learn.microsoft.com/en-us/azure/app-service/quickstart-nodejs?tabs=linux&pivots=development-environment-azure-portal#deploy-to-azure) to get the `botEndpoint`.
+Create a new Azure Web App Service resource named `city-trash-bot-app` as described [here](https://learn.microsoft.com/en-us/azure/app-service/quickstart-nodejs?tabs=linux&pivots=development-environment-azure-portal#create-azure-resources) to get the `botEndpoint`.
 
 ###### Bot Service
 
@@ -141,37 +141,37 @@ Create a new Azure Bot Service resource named `city-trash-bot` as described [her
 
 ###### Service Bus
 
-Create a new Azure Service Bus resource named `city-trash-bot-service-bus` as described [here](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-portal), to get the `SERVICE_BUS_CONNECTION` string.
-Create a new Azure Service Bus Queue resource named `named city-trash-bot-queue` as described [here](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-portal#create-a-queue-in-the-azure-portal).
+- Create a new Azure Service Bus resource named `city-trash-bot-service-bus` as described [here](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-portal#create-a-namespace-in-the-azure-portal), to get the `SERVICE_BUS_CONNECTION` string.
+- Create a new Azure Service Bus Queue resource named `named city-trash-bot-queue` as described [here](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-portal#create-a-queue-in-the-azure-portal).
 
 ###### Azure Cosmos DB for MongoDB
 
-Create a new Azure Cosmos DB for MongoDB resource named `city-trash-bot-db` as described [here](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/quickstart-portal), to get the `DATABASE_URL` (connection string), `DATABASE_NAME`.
-Create a new MongoDB collection named `alert`, to get the `DATABASE_ALERT_COLLECTION`.
-Create a new MongoDB collection named `conferiment`, to get the `DATABASE_CONFERIMENT_COLLECTION`.
+- Create a new Azure Cosmos DB for MongoDB resource named `city-trash-bot-db` as described [here](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/quickstart-portal#create-account), to get the `DATABASE_URL` (connection string), `DATABASE_NAME`.
+- Create a new MongoDB collection named `alert`, to get the `DATABASE_ALERT_COLLECTION`.
+- Create a new MongoDB collection named `conferiment`, to get the `DATABASE_CONFERIMENT_COLLECTION`.
 
 ###### Function App
 
-Create a new Function App resource named `city-trash-bot-functions` as described [here](https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-node).
+Create a new Function App resource named `city-trash-bot-functions` as described [here](https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-node#publish-the-project-to-azure).
 
 ###### LUIS Service
 
-Create a new LUIS resource named `city-trash-bot-luis` as described [here](https://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/sign-in), to get the `LuisAPIHostName`, `LuisAppId`, `LuisAPIKey`.
-////////Creareee intent
+- Create a new LUIS resource named `city-trash-bot-luis` as described [here](https://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/sign-in#create-new-app-in-luis-using-portal), to get the `LuisAPIHostName`, `LuisAppId`, `LuisAPIKey`.
+- Create a new conversation app named `city-trash-bot` by importing the `app/cognitiveModels/city-trash-bot.json` file.
 
 ###### Communication Service
 
-- Create a new Communication Service resource named `city-trash-bot-communication-service` as described [here](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp), to get the `COMMUNICATION_SERVICES_CONNECTION` string.
-- Create a new Email Communication Service resource nnamed `city-trash-bot-email-communication-service` as described [here](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/create-email-communication-resource);
+- Create a new Communication Service resource named `city-trash-bot-communication-service` as described [here](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp#create-azure-communication-services-resource), to get the `COMMUNICATION_SERVICES_CONNECTION` string.
+- Create a new Email Communication Service resource nnamed `city-trash-bot-email-communication-service` as described [here](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/create-email-communication-resource#create-the-email-communications-service-resource-using-portal);
 - Create a new Email Communication Services Domain resource as described [here](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/add-azure-managed-domains), to get the `SENDER_EMAIL_ADDRESS`.
 
 ###### Speech service
 
-Create a [Speech resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices) named `city-trash-bot-speech-services` in the Azure portal to get the resource `SPEECH_KEY` and `SPEECH_REGION`.
+Create a new [Speech Service](https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices) resource named `city-trash-bot-speech-services` in the Azure portal to get the resource `SPEECH_KEY` and `SPEECH_REGION`.
 
 ###### Content moderator
 
-Create a [Content moderator](https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices) named `city-trash-bot-content-moderator` in the Azure portal to get `CONTENT_MODERATOR_ENDPOINT` (connection string) and `CONTENT_MODERATOR_SUBSCRIPTION_KEY`.
+Create a new [Content moderator](https://portal.azure.com/#create/Microsoft.CognitiveServicesContentModerator) resource named `city-trash-bot-content-moderator` in the Azure portal to get `CONTENT_MODERATOR_ENDPOINT` (connection string) and `CONTENT_MODERATOR_SUBSCRIPTION_KEY`.
 
 #### Environment Variables
 
