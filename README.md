@@ -55,7 +55,7 @@ This tutorial also shows how to locally run the bot, and how to deploy it Azure.
 - [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator);
 - [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local);
 - [Azurite emulator](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio);
-- [Azure Speech SDK](https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/setup-platform?pivots=programming-language-javascript) for JavaScript;
+- [Azure Speech SDK](https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/setup-platform?pivots=programming-language-javascript) for JavaScript.
 
 ### Repository
 
@@ -137,7 +137,7 @@ Zip your app code and then deploy to Azure:
 
 ```sh
 $ cd app
-$ zip -r build.zip . -x ".env" -x "template-parameters.json" -x "template.json" -x "package-lock.json" -x "*.nvmrc"
+$ zip -r build.zip . -x ".env" -x "template-parameters.json" -x "template.json" -x "package-lock.json" -x "*.nvmrc" -x "cognitiveModels"
 $ az webapp deployment source config-zip --resource-group "<resource-group-name>" --name "<name-of-web-app>" --src "build.zip"
 ```
 

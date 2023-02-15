@@ -1,0 +1,697 @@
+{
+  "luis_schema_version": "7.0.0",
+  "intents": [
+    {
+      "name": "AddAlertScheduling",
+      "features": []
+    },
+    {
+      "name": "AddConferiment",
+      "features": []
+    },
+    {
+      "name": "GetConferimentByCityAndDay",
+      "features": []
+    },
+    {
+      "name": "GetConferimentByCityAndType",
+      "features": []
+    },
+    {
+      "name": "None",
+      "features": []
+    }
+  ],
+  "entities": [
+    {
+      "name": "City",
+      "children": [
+        {
+          "name": "Eboli",
+          "children": [],
+          "features": []
+        },
+        {
+          "name": "Battipaglia",
+          "children": [],
+          "features": []
+        }
+      ],
+      "roles": [],
+      "features": []
+    },
+    {
+      "name": "Email",
+      "children": [],
+      "roles": [],
+      "features": []
+    },
+    {
+      "name": "Time",
+      "children": [],
+      "roles": [],
+      "features": []
+    }
+  ],
+  "hierarchicals": [],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "Day",
+      "subLists": [
+        {
+          "canonicalForm": "Monday",
+          "list": [
+            "monday"
+          ]
+        },
+        {
+          "canonicalForm": "Tuesday",
+          "list": [
+            "tuesday"
+          ]
+        },
+        {
+          "canonicalForm": "Wednesday",
+          "list": [
+            "wednesday"
+          ]
+        },
+        {
+          "canonicalForm": "Thursday",
+          "list": [
+            "thursday"
+          ]
+        },
+        {
+          "canonicalForm": "Friday",
+          "list": [
+            "friday"
+          ]
+        },
+        {
+          "canonicalForm": "Saturday",
+          "list": [
+            "saturday"
+          ]
+        },
+        {
+          "canonicalForm": "Sunday",
+          "list": [
+            "sunday"
+          ]
+        },
+        {
+          "canonicalForm": "Today",
+          "list": [
+            "today"
+          ]
+        },
+        {
+          "canonicalForm": "Tomorrow",
+          "list": [
+            "tomorrow"
+          ]
+        },
+        {
+          "canonicalForm": "Yesterday",
+          "list": [
+            "yesterday"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "Type",
+      "subLists": [
+        {
+          "canonicalForm": "Multi-Material",
+          "list": [
+            "multi-material",
+            "multmaterial",
+            "Multimaterial"
+          ]
+        },
+        {
+          "canonicalForm": "Dry",
+          "list": [
+            "dry"
+          ]
+        },
+        {
+          "canonicalForm": "Wet",
+          "list": [
+            "wet"
+          ]
+        },
+        {
+          "canonicalForm": "Paper",
+          "list": [
+            "paper"
+          ]
+        },
+        {
+          "canonicalForm": "Glass",
+          "list": [
+            "glass"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [],
+  "utterances": [
+    {
+      "text": "add location to favorites",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can i tell you what to waste?",
+      "intent": "AddConferiment",
+      "entities": []
+    },
+    {
+      "text": "display map for sacramento plastic surgery",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "distance between my home to tesco",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "email @ example . it , 20 : 00 , campagna",
+      "intent": "AddAlertScheduling",
+      "entities": [
+        {
+          "entity": "Email",
+          "startPos": 0,
+          "endPos": 19,
+          "children": []
+        },
+        {
+          "entity": "Time",
+          "startPos": 23,
+          "endPos": 29,
+          "children": []
+        },
+        {
+          "entity": "City",
+          "startPos": 33,
+          "endPos": 40,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "email alert",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "how far am i from fifty first avenue and indian school",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far away from school am i",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far i am from my work place",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is it from here to home",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is it from here to work",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is it from home to new haven missouri",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is it to from here",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is it to mum and dad s house",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is it to street",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is mcdonalds from my home",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is rite aid from acme",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is the home depot from lowe s",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far to mom and dad's",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i tell you what to waste in eboli",
+      "intent": "AddConferiment",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 28,
+          "endPos": 32,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "i tell you what to waste in eboli on monday",
+      "intent": "AddConferiment",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 28,
+          "endPos": 32,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "i tell you what to waste today",
+      "intent": "AddConferiment",
+      "entities": []
+    },
+    {
+      "text": "i want to put out the paper",
+      "intent": "GetConferimentByCityAndType",
+      "entities": []
+    },
+    {
+      "text": "i want to receive a notification",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "i would like to be notified",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "i would like to know what is being put out on monday",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
+      "text": "i would receive an alert",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "i would receive an alert on the email address email@example.it, every day at 16:00, for the city of campagna",
+      "intent": "AddAlertScheduling",
+      "entities": [
+        {
+          "entity": "Email",
+          "startPos": 46,
+          "endPos": 61,
+          "children": []
+        },
+        {
+          "entity": "Time",
+          "startPos": 77,
+          "endPos": 81,
+          "children": []
+        },
+        {
+          "entity": "City",
+          "startPos": 100,
+          "endPos": 107,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "let's rate microsoft visitor center 5 stars on google map",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "menu",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "monday",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
+      "text": "notify me on the email address",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "notify me on the email address email @ example . it , every day at 20 : 00 , for the city of campagna",
+      "intent": "AddAlertScheduling",
+      "entities": [
+        {
+          "entity": "Email",
+          "startPos": 31,
+          "endPos": 50,
+          "children": []
+        },
+        {
+          "entity": "Time",
+          "startPos": 67,
+          "endPos": 73,
+          "children": []
+        },
+        {
+          "entity": "City",
+          "startPos": 93,
+          "endPos": 100,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "put out the door",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
+      "text": "save my location on map",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "save my location to my map",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "schedule alert",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "schedule an alert",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "send me a notification on the email address",
+      "intent": "AddAlertScheduling",
+      "entities": []
+    },
+    {
+      "text": "send me a notification on the email address for the city of battipaglia",
+      "intent": "AddAlertScheduling",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 60,
+          "endPos": 70,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "sunday in battipaglia",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 10,
+          "endPos": 20,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "the address and how to get there",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "the address i want the address",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "the dry is conferred on monday in battipaglia",
+      "intent": "AddConferiment",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 34,
+          "endPos": 44,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "the dry is conferred on monday in eboli",
+      "intent": "AddConferiment",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 34,
+          "endPos": 38,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "the dry is conferred on monday in salerno",
+      "intent": "AddConferiment",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 34,
+          "endPos": 40,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "today in eboli",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 9,
+          "endPos": 13,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "waste on eboli",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 9,
+          "endPos": 13,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "waste today in eboli",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 15,
+          "endPos": 19,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "wet in battipaglia",
+      "intent": "GetConferimentByCityAndType",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 7,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "what do i have to throw away",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
+      "text": "what do i have to throw away in battipaglia",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 32,
+          "endPos": 42,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "what do i have to throw away today",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
+      "text": "what do i have to throw away today in battipaglia",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 38,
+          "endPos": 48,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "what is being thrown away ?",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
+      "text": "what is the address for my bus stop",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what is the distance between my current location and",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what should i put out the door today in eboli?",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 40,
+          "endPos": 44,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "what should i throw away today ?",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
+      "text": "what to put outside the door in battipaglia ?",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 32,
+          "endPos": 42,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "when can i put out the glass?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": []
+    },
+    {
+      "text": "when do you throw away paper in eboli?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 32,
+          "endPos": 36,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "when should i throw away the dry waste?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": []
+    },
+    {
+      "text": "when the multimaterial in eboli?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 26,
+          "endPos": 30,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "when to throw away the wet waste?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": []
+    },
+    {
+      "text": "where is bus stop 77",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "where is my home address",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "versionId": "0.1",
+  "name": "city-trash-bot",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "phraselists": [
+    {
+      "name": "The @Type is conferred on @Day in @City",
+      "mode": false,
+      "words": "The @Type is conferred on @Day in @City",
+      "activated": true,
+      "enabledForAllModels": false
+    }
+  ],
+  "regex_features": [],
+  "patterns": [],
+  "settings": []
+}
