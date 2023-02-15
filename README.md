@@ -49,6 +49,7 @@ This tutorial also shows how to locally run the bot, and how to deploy it Azure.
 - If you don't have an Azure subscription, create a [free account](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) before you begin;
 - [Visual Studio Code](https://www.visualstudio.com/downloads) or your favorite IDE, if you want to edit the bot code;
 - Knowledge of [Node.js](https://nodejs.org), [restify](http://restify.com/) and asynchronous programming in JavaScript;
+- [NVM Node Version Manager](https://github.com/nvm-sh/nvm)
 - [Azure CLI](https://docs.microsoft.com/it-it/cli/azure/install-azure-cli);
 - The [Bot Framework SDK](https://github.com/microsoft/botbuilder-js) for JavaScript;
 - [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator);
@@ -68,8 +69,8 @@ $ git clone https://github.com/IvanBuccella/CityTrashBot
 
 #### Environment Variables
 
-Move into the `app` folder, and create your own environment variables `.env` file by using the `.env-sample` file.
-Move into the `functions` folder, and create your own settings variables `local.settings.json` file by using the `local.settings.sample.json` file.
+- Move into the `app` folder, and create your own environment variables `.env` file by using the `.env-sample` file.
+- Move into the `functions` folder, and create your own settings variables `local.settings.json` file by using the `local.settings.sample.json` file.
 
 #### Install required Modules
 
@@ -77,13 +78,17 @@ Move into the `app` folder, and install all the required packages:
 
 ```sh
 $ cd app
+$ nvm use
 $ npm install
 ```
 
 Move into the `functions` folder, and install all the required packages:
 
+```sh
 $ cd functions
+$ nvm use
 $ npm install
+```
 
 #### Run
 
@@ -98,6 +103,7 @@ Now, run the functions:
 
 ```sh
 $ cd functions
+$ nvm use
 $ func start
 ```
 
@@ -105,6 +111,7 @@ And then, run the app:
 
 ```sh
 $ cd app
+$ nvm use
 $ npm start
 ```
 
