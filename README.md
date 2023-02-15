@@ -1,9 +1,21 @@
 # City Trash Bot
 
 Dry, Multi-material, Wet, Paper, Glass... "What should I put out the door today?", "When should I put the glass out the door?" Feel free to ask CityTrashBot!
+
 CityTrashBot is a Telegram bot to stay up to date on waste disposal in your municipality.
+
 It will be enough to interact with it, via text or audio message, and immediately receive a detailed answer; but, please, be moderate with your words, it might take offense.
+
 Furthermore, it's possible to receive daily waste disposal email notifications based on your preferences agreed with CityTrashBot, and you can train it about waste disposal in a certain municipality.
+
+CityTrashBot provides the following features:
+
+- obtain the type of waste disposal in a specific city and day of the week;
+- obtain the day of waste disposal of a specific type of waste in a specific city;
+- add the schedule of an email alert to receive every day at a specified time about waste disposal for a specified city;
+- train the bot, by adding waste disposal of a specific type of waste in a city for a specific day;
+
+## Architecture
 
 The bot has been created using several [Azure](https://azure.microsoft.com) services, in particular:
 
@@ -17,7 +29,15 @@ The bot has been created using several [Azure](https://azure.microsoft.com) serv
 - [Service Bus](https://azure.microsoft.com/en-us/products/service-bus/), to allow communication between the different functions;
 - [Communication Services & Email Communication Service](https://azure.microsoft.com/en-us/products/communication-services/), to deliver the emails to the bot users.
 
-## Tutorial Structure
+The figure below shows the bot architecture and the different services interaction:
+
+![Alt text](deliverables/images/architecture.png?raw=true "Bot Architecture")
+
+## Tutorial
+
+This tutorial aims to show how it is possible to take advantage of the [Microsoft Bot Framework](https://dev.botframework.com/) and other [Azure](https://azure.microsoft.com) services to develop a bot to automate some functionalities of interest.
+
+This tutorial also shows how to locally run the bot, and how to deploy it Azure.
 
 - **[Installation](#installation)**
   - **[Prerequisites](#prerequisites)**
