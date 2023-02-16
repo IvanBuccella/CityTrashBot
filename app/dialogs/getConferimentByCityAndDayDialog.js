@@ -96,7 +96,7 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     });
     let msg;
     if (result.data) {
-      msg = `You have to put the "${result.data}" out the door in "${data.city}" on "${data.day}".`;
+      msg = `You have to take the "${result.data}" out in "${data.city}" on "${data.day}".`;
     } else {
       msg = `I'm sorry, I don't know :( But you can train me!`;
     }

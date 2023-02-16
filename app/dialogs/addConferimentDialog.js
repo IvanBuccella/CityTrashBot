@@ -91,7 +91,7 @@ class AddConferimentDialog extends CancelAndHelpDialog {
 
     if (!data.type) {
       const messageText =
-        "Let me know the type (Dry, Glass, Multi-Material, Paper, Wet).";
+        "Let me know the type (Recyclable, Glass, General Waste, Paper, Food).";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -113,7 +113,7 @@ class AddConferimentDialog extends CancelAndHelpDialog {
     }
     data.type = stepContext.result;
 
-    const messageText = `Please confirm, you said that the "${data.type}" in "${data.city}" is put out the door on "${data.day}". Is this correct?`;
+    const messageText = `Please confirm, you said that the "${data.type}" in "${data.city}" is took out on "${data.day}". Is this correct?`;
     const msg = MessageFactory.text(
       messageText,
       messageText,
@@ -134,7 +134,7 @@ class AddConferimentDialog extends CancelAndHelpDialog {
       if (result.data == 0) {
         msg = `Thank you, but I already knew :)`;
       } else {
-        msg = `Thank you! I have stored your info.`;
+        msg = `Thank you! I saved your info.`;
       }
       let message = {
         text: msg,

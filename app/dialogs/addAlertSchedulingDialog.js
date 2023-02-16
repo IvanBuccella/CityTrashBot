@@ -134,7 +134,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
       if (result.data == 0) {
         msg = `Ops, I'm sorry but I cannot schedule depending on your choices.`;
       } else {
-        msg = `Thank you! I have saved your request.`;
+        msg = `Thank you! I saved your schedule.`;
       }
 
       let message = {

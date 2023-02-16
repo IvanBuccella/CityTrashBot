@@ -69,7 +69,7 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
 
     if (!data.type) {
       const messageText =
-        "Let me know the type (Dry, Glass, Multi-Material, Paper, Wet).";
+        "Let me know the type (Recyclable, Glass, General Waste, Paper, Food).";
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -100,9 +100,9 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
     });
     let msg;
     if (result.data) {
-      msg = `You have to put the "${data.type}" out the door in "${data.city}" on "${result.data}".`;
+      msg = `You have to take the "${data.type}" out in "${data.city}" on "${result.data}".`;
     } else {
-      msg = `Sorry, I don't know when to put the "${data.type}" out the door in "${data.city}" :( But you can train me!`;
+      msg = `Sorry, I don't know when to take the "${data.type}" out in "${data.city}" :( But you can train me!`;
     }
     let message = {
       text: msg,

@@ -12,7 +12,7 @@ class Validator {
     "saturday",
   ];
 
-  static types = ["dry", "glass", "multimaterial", "paper", "wet"];
+  static types = ["recyclable", "glass", "generalwaste", "paper", "food"];
 
   static isValidDay(inputDay) {
     if (inputDay === undefined) return false;

@@ -127,12 +127,12 @@ class MainDialog extends ComponentDialog {
       const buttons = [
         {
           type: ActionTypes.ImBack,
-          title: "What to put out of the door",
+          title: "What should I take out today?",
           value: "GetConferimentByCityAndDay",
         },
         {
           type: ActionTypes.ImBack,
-          title: "When to put something out of the door",
+          title: "When should I take out something?",
           value: "GetConferimentByCityAndType",
         },
         {
