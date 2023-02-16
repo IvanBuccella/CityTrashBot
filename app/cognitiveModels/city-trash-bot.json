@@ -138,9 +138,9 @@
           ]
         },
         {
-          "canonicalForm": "Recyclables",
+          "canonicalForm": "Recyclable",
           "list": [
-            "recyclables"
+            "recyclable"
           ]
         },
         {
@@ -209,6 +209,42 @@
       "text": "email alert",
       "intent": "AddAlertScheduling",
       "entities": []
+    },
+    {
+      "text": "food in battipaglia",
+      "intent": "GetConferimentByCityAndType",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 8,
+          "endPos": 18,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "general waste in battipaglia",
+      "intent": "GetConferimentByCityAndType",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 17,
+          "endPos": 27,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "glass in battipaglia",
+      "intent": "GetConferimentByCityAndType",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 9,
+          "endPos": 19,
+          "children": []
+        }
+      ]
     },
     {
       "text": "how far am i from fifty first avenue and indian school",
@@ -398,6 +434,18 @@
       ]
     },
     {
+      "text": "paper in battipaglia",
+      "intent": "GetConferimentByCityAndType",
+      "entities": [
+        {
+          "entity": "City",
+          "startPos": 9,
+          "endPos": 19,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "put out the door",
       "intent": "GetConferimentByCityAndDay",
       "entities": []
@@ -544,18 +592,6 @@
           "entity": "City",
           "startPos": 15,
           "endPos": 19,
-          "children": []
-        }
-      ]
-    },
-    {
-      "text": "wet in battipaglia",
-      "intent": "GetConferimentByCityAndType",
-      "entities": [
-        {
-          "entity": "City",
-          "startPos": 7,
-          "endPos": 17,
           "children": []
         }
       ]
