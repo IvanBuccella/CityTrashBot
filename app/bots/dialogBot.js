@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require("botbuilder");
-const axios = require("axios");
 const {
   CityTrashBotSpeechRecognizer,
 } = require("../recognizers/speechRecognizer");
