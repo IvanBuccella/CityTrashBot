@@ -6,7 +6,7 @@ CityTrashBot is a Telegram bot created to stay up to date on waste disposal in y
 
 Just interact with it via text or audio message, and immediately receive a detailed answer to all your questions! Just make sure to be mindful with your words…it might take offence!
 
-With CityTrashBot it's possible to receive daily waste disposal email notifications based on your preference so it can keep you up to date on what’s going on with waste disposal in your area!
+With CityTrashBot it's possible to receive daily waste disposal email notifications at set times based on your preference so it can keep you up to date on what’s going on with waste disposal in your area!
 
 CityTrashBot has the following features:
 
