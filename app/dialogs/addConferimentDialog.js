@@ -130,17 +130,22 @@ class AddConferimentDialog extends CancelAndHelpDialog {
         url: process.env.FUNCTION_ADD_CONFERIMENT_ENDPOINT,
         data: data,
       });
-      let msg = "";
+      let msg;
+      let msgToSpeech;
       if (result.data == 0) {
         msg = `Thank you, but I already knew :)`;
+        msgToSpeech = `Thank you but I already knew`;
       } else {
         msg = `Thank you! I saved your info.`;
+        msgToSpeech = `Thank you I saved your info`;
       }
       let message = {
         text: msg,
         type: ActivityTypes.Message,
       };
-      let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(msg);
+      let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(
+        msgToSpeech
+      );
       if (audioFile != null) {
         message.attachments = [
           {

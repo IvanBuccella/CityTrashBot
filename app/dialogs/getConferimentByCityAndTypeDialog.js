@@ -99,16 +99,21 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
       data: data,
     });
     let msg;
+    let msgToSpeech;
     if (result.data) {
       msg = `You have to take the "${data.type}" out in "${data.city}" on "${result.data}".`;
+      msgToSpeech = `You have to take the "${data.type}" out`;
     } else {
       msg = `Sorry, I don't know when to take the "${data.type}" out in "${data.city}" :( But you can train me!`;
+      msgToSpeech = `Sorry, I don't know`;
     }
     let message = {
       text: msg,
       type: ActivityTypes.Message,
     };
-    let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(msg);
+    let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(
+      msgToSpeech
+    );
     if (audioFile != null) {
       message.attachments = [
         {

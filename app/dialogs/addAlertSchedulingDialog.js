@@ -130,18 +130,22 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
         url: process.env.FUNCTION_ADD_ALERT_SCHEDULING_ENDPOINT,
         data: data,
       });
-      let msg = "";
+      let msg;
+      let msgToSpeech;
       if (result.data == 0) {
         msg = `Ops, I'm sorry but I cannot schedule depending on your choices.`;
+        msgToSpeech = `I cannot schedule`;
       } else {
         msg = `Thank you! I saved your schedule.`;
+        msgToSpeech = `Thank youmI saved your schedule.`;
       }
-
       let message = {
         text: msg,
         type: ActivityTypes.Message,
       };
-      let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(msg);
+      let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(
+        msgToSpeech
+      );
       if (audioFile != null) {
         message.attachments = [
           {

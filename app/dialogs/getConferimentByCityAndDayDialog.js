@@ -95,17 +95,21 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
       data: data,
     });
     let msg;
+    let msgToSpeech;
     if (result.data) {
       msg = `You have to take the "${result.data}" out in "${data.city}" on "${data.day}".`;
+      msgToSpeech = `You have to take the "${result.data} out`;
     } else {
       msg = `I'm sorry, I don't know :( But you can train me!`;
+      msgToSpeech = `Sorry, I don't know`;
     }
-
     let message = {
       text: msg,
       type: ActivityTypes.Message,
     };
-    let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(msg);
+    let audioFile = await CityTrashBotSpeechRecognizer.generateAudio(
+      msgToSpeech
+    );
     if (audioFile != null) {
       message.attachments = [
         {
