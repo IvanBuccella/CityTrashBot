@@ -102,7 +102,7 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
     let msgToSpeech;
     if (result.data) {
       msg = `You have to take the "${data.type}" out in "${data.city}" on "${result.data}".`;
-      msgToSpeech = `You have to take the "${data.type}" out`;
+      msgToSpeech = `You have to take it out on "${result.data}"`;
     } else {
       msg = `Sorry, I don't know when to take the "${data.type}" out in "${data.city}" :( But you can train me!`;
       msgToSpeech = `Sorry, I don't know`;
