@@ -126,26 +126,6 @@
       "name": "Type",
       "subLists": [
         {
-          "canonicalForm": "Multi-Material",
-          "list": [
-            "multi-material",
-            "multmaterial",
-            "Multimaterial"
-          ]
-        },
-        {
-          "canonicalForm": "Dry",
-          "list": [
-            "dry"
-          ]
-        },
-        {
-          "canonicalForm": "Wet",
-          "list": [
-            "wet"
-          ]
-        },
-        {
           "canonicalForm": "Paper",
           "list": [
             "paper"
@@ -155,6 +135,24 @@
           "canonicalForm": "Glass",
           "list": [
             "glass"
+          ]
+        },
+        {
+          "canonicalForm": "Recyclables",
+          "list": [
+            "recyclables"
+          ]
+        },
+        {
+          "canonicalForm": "General waste",
+          "list": [
+            "general waste"
+          ]
+        },
+        {
+          "canonicalForm": "Food",
+          "list": [
+            "food"
           ]
         }
       ],
@@ -500,6 +498,21 @@
       ]
     },
     {
+      "text": "the general waste is conferred on monday in battipaglia",
+      "intent": "AddConferiment",
+      "entities": []
+    },
+    {
+      "text": "the general waste is conferred on monday in eboli",
+      "intent": "AddConferiment",
+      "entities": []
+    },
+    {
+      "text": "the general waste is conferred on monday in salerno",
+      "intent": "AddConferiment",
+      "entities": []
+    },
+    {
       "text": "today in eboli",
       "intent": "GetConferimentByCityAndDay",
       "entities": [
@@ -609,6 +622,11 @@
       ]
     },
     {
+      "text": "what should i take out today?",
+      "intent": "GetConferimentByCityAndDay",
+      "entities": []
+    },
+    {
       "text": "what should i throw away today ?",
       "intent": "GetConferimentByCityAndDay",
       "entities": []
@@ -643,7 +661,17 @@
       ]
     },
     {
+      "text": "when is the glass trash collected?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": []
+    },
+    {
       "text": "when should i throw away the dry waste?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": []
+    },
+    {
+      "text": "when should i throw away the general waste?",
       "intent": "GetConferimentByCityAndType",
       "entities": []
     },
@@ -658,6 +686,11 @@
           "children": []
         }
       ]
+    },
+    {
+      "text": "when to throw away the food waste?",
+      "intent": "GetConferimentByCityAndType",
+      "entities": []
     },
     {
       "text": "when to throw away the wet waste?",
