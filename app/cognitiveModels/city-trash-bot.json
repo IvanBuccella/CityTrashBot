@@ -573,6 +573,11 @@
       ]
     },
     {
+      "text": "train the bot",
+      "intent": "AddConferiment",
+      "entities": []
+    },
+    {
       "text": "waste on eboli",
       "intent": "GetConferimentByCityAndDay",
       "entities": [
