@@ -221,6 +221,9 @@ class MainDialog extends ComponentDialog {
       data.time = this.cityTrashBotRecognizer.getTime(luisResult);
 
       return await stepContext.beginDialog("addAlertSchedulingDialog", data);
+    }
+    if (option.toLowerCase() == "/start") {
+      return await stepContext.beginDialog("MainDialog", {});
     } else {
       // Catch all for unhandled intents
       const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way.`;
