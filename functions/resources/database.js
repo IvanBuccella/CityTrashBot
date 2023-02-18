@@ -209,13 +209,16 @@ class Database {
     if (inputDay === undefined) return undefined;
     inputDay = inputDay.toLowerCase().replace(/\s+/g, "");
     if (inputDay.length == 0) return undefined;
-    const today = new Date().getDay();
+    const today = new Date();
+
     if (inputDay == "yesterday") {
-      return weekdays[today - 1];
+      today.setDate(today.getDate() - 1);
+      return weekdays[today.getDay()];
     } else if (inputDay == "today") {
-      return weekdays[today];
+      return weekdays[today.getDay()];
     } else if (inputDay == "tomorrow") {
-      return weekdays[today + 1];
+      today.setDate(today.getDate() + 1);
+      return weekdays[today.getDay()];
     }
     if (!weekdays.includes(inputDay)) return undefined;
     return inputDay;
