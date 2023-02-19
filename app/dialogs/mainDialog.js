@@ -22,6 +22,17 @@ const {
 const MAIN_WATERFALL_DIALOG = "mainWaterfallDialog";
 const TEXT_PROMPT = "TextPrompt";
 
+const INTENT_MENU = "menu";
+const INTENT_START = "/start";
+
+const MAIN_DIALOG = "MainDialog";
+const GET_CONFERIMENT_BY_CITY_AND_DAY_DIALOG =
+  "getConferimentByCityAndDayDialog";
+const GET_CONFERIMENT_BY_CITY_AND_TYPE_DIALOG =
+  "getConferimentByCityAndTypeDialog";
+const ADD_CONFERIMENT_DIALOG = "addConferimentDialog";
+const ADD_ALERT_SCHEDULING_DIALOG = "addAlertSchedulingDialog";
+
 class MainDialog extends ComponentDialog {
   constructor(
     cityTrashBotRecognizer,
@@ -30,7 +41,7 @@ class MainDialog extends ComponentDialog {
     addConferimentDialog,
     addAlertSchedulingDialog
   ) {
-    super("MainDialog");
+    super(MAIN_DIALOG);
 
     if (!cityTrashBotRecognizer)
       throw new Error(
@@ -115,12 +126,14 @@ class MainDialog extends ComponentDialog {
     return await stepContext.prompt(TEXT_PROMPT, { prompt: promptMessage });
   }
 
-  async menuStep(step) {
-    const message = step.result;
+  async menuStep(stepContext) {
+    let message = stepContext.result.toLowerCase();
 
     await CityTrashBotContentModerator.isOffensive(message);
 
-    if (message.toLowerCase() === "menu") {
+    if (message === INTENT_START) {
+      return await stepContext.replaceDialog(MAIN_DIALOG);
+    } else if (message === INTENT_MENU) {
       const reply = {
         type: ActivityTypes.Message,
       };
@@ -153,13 +166,13 @@ class MainDialog extends ComponentDialog {
 
       reply.attachments = [card];
 
-      await step.context.sendActivity(reply);
+      await stepContext.context.sendActivity(reply);
 
-      return await step.prompt(TEXT_PROMPT, {
+      return await stepContext.prompt(TEXT_PROMPT, {
         prompt: "Select an option to proceed!",
       });
     } else {
-      return await step.next(message);
+      return await stepContext.next(message);
     }
   }
 
@@ -168,7 +181,7 @@ class MainDialog extends ComponentDialog {
       return;
     }
 
-    const option = stepContext.result;
+    const option = stepContext.result.toLowerCase();
 
     await CityTrashBotContentModerator.isOffensive(option);
 
@@ -177,8 +190,8 @@ class MainDialog extends ComponentDialog {
     );
     const luisIntent = LuisRecognizer.topIntent(luisResult);
     if (
-      option == "GetConferimentByCityAndDay" ||
-      luisIntent == "GetConferimentByCityAndDay"
+      option == "getconferimentbycityandday" ||
+      luisIntent == "getconferimentbycityandday"
     ) {
       const data = {};
 
@@ -186,12 +199,12 @@ class MainDialog extends ComponentDialog {
       data.day = this.cityTrashBotRecognizer.getDay(luisResult);
 
       return await stepContext.beginDialog(
-        "getConferimentByCityAndDayDialog",
+        GET_CONFERIMENT_BY_CITY_AND_DAY_DIALOG,
         data
       );
     } else if (
-      option == "GetConferimentByCityAndType" ||
-      luisIntent == "GetConferimentByCityAndType"
+      option == "getconferimentbycityandtype" ||
+      luisIntent == "getconferimentbycityandtype"
     ) {
       const data = {};
 
@@ -199,20 +212,20 @@ class MainDialog extends ComponentDialog {
       data.type = this.cityTrashBotRecognizer.getType(luisResult);
 
       return await stepContext.beginDialog(
-        "getConferimentByCityAndTypeDialog",
+        GET_CONFERIMENT_BY_CITY_AND_TYPE_DIALOG,
         data
       );
-    } else if (option == "AddConferiment" || luisIntent == "AddConferiment") {
+    } else if (option == "addconferiment" || luisIntent == "addconferiment") {
       const data = {};
 
       data.city = this.cityTrashBotRecognizer.getCity(luisResult);
       data.day = this.cityTrashBotRecognizer.getDay(luisResult);
       data.type = this.cityTrashBotRecognizer.getType(luisResult);
 
-      return await stepContext.beginDialog("addConferimentDialog", data);
+      return await stepContext.beginDialog(ADD_CONFERIMENT_DIALOG, data);
     } else if (
-      option == "AddAlertScheduling" ||
-      luisIntent == "AddAlertScheduling"
+      option == "addalertscheduling" ||
+      luisIntent == "addalertscheduling"
     ) {
       const data = {};
 
@@ -220,10 +233,9 @@ class MainDialog extends ComponentDialog {
       data.email = this.cityTrashBotRecognizer.getEmail(luisResult);
       data.time = this.cityTrashBotRecognizer.getTime(luisResult);
 
-      return await stepContext.beginDialog("addAlertSchedulingDialog", data);
-    }
-    if (option.toLowerCase() == "/start") {
-      return await stepContext.beginDialog("MainDialog", {});
+      return await stepContext.beginDialog(ADD_ALERT_SCHEDULING_DIALOG, data);
+    } else if (option === INTENT_START) {
+      return await stepContext.replaceDialog(MAIN_DIALOG);
     } else {
       // Catch all for unhandled intents
       const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way.`;

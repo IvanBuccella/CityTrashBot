@@ -45,7 +45,7 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
     const data = stepContext.options;
 
     if (!data.city) {
-      const messageText = "Let me know the city.";
+      const messageText = 'Let me know the city, or type "quit" to exit.';
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -69,7 +69,7 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
 
     if (!data.type) {
       const messageText =
-        "Let me know the type (Recyclable, Glass, General Waste, Paper, Food).";
+        'Let me know the type (Recyclable, Glass, General Waste, Paper, Food), or type "quit" to exit.';
       const msg = MessageFactory.text(
         messageText,
         messageText,

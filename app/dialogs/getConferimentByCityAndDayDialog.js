@@ -43,7 +43,7 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     const data = stepContext.options;
 
     if (!data.city) {
-      const messageText = "Let me know the city.";
+      const messageText = 'Let me know the city, or type "quit" to exit.';
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -66,7 +66,7 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
     data.city = stepContext.result;
 
     if (!data.day) {
-      const messageText = "Let me know when.";
+      const messageText = 'Let me know when, or type "quit" to exit.';
       const msg = MessageFactory.text(
         messageText,
         messageText,

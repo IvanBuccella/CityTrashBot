@@ -47,7 +47,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
     const data = stepContext.options;
 
     if (!data.city) {
-      const messageText = "Let me know the city.";
+      const messageText = 'Let me know the city, or type "quit" to exit.';
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -67,7 +67,8 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
     data.city = stepContext.result;
 
     if (!data.email) {
-      const messageText = "Let me know the email your email address.";
+      const messageText =
+        'Let me know the email your email address, or type "quit" to exit.';
       const msg = MessageFactory.text(
         messageText,
         messageText,
@@ -91,7 +92,7 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
 
     if (!data.time) {
       const messageText =
-        "Let me know the time. (hh:ss - 24h format - Europe/Rome timezone).";
+        'Let me know the time. (hh:ss - 24h format - Europe/Rome timezone), or type "quit" to exit.';
       const msg = MessageFactory.text(
         messageText,
         messageText,
