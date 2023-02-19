@@ -49,7 +49,8 @@ class DialogBot extends ActivityHandler {
               fs.readFileSync(filename)
             );
             if (text == null) return;
-            context.activity.text = text;
+            context.activity.text = text.toLowerCase();
+            context.activity.transaledText = text.toLowerCase();
           }
         } catch (error) {
           console.log(error);
