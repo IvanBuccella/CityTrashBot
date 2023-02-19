@@ -188,7 +188,7 @@ class MainDialog extends ComponentDialog {
     const luisResult = await this.cityTrashBotRecognizer.executeLuisQuery(
       stepContext.context
     );
-    const luisIntent = LuisRecognizer.topIntent(luisResult);
+    const luisIntent = LuisRecognizer.topIntent(luisResult).toLowerCase();
     if (
       option == "getconferimentbycityandday" ||
       luisIntent == "getconferimentbycityandday"
