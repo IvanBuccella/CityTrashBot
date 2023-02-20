@@ -23,7 +23,7 @@ module.exports = async function (context, sendEmailMessage) {
       sender: process.env.SENDER_EMAIL_ADDRESS,
       content: {
         subject: "City Trash Bot Daily Reminder",
-        plainText: `Hey! I'm here to remember that today you have to put the "${type}" out the door in "${sendEmailMessage.city}."`,
+        plainText: `Hey! I'm here to remember that today you have to take the "${type}" out the door in "${sendEmailMessage.city}."`,
       },
       recipients: {
         to: [
@@ -33,11 +33,9 @@ module.exports = async function (context, sendEmailMessage) {
         ],
       },
     };
-    context.log(
-      await new EmailClient(
-        process.env["COMMUNICATION_SERVICES_CONNECTION"]
-      ).send(emailMessage)
-    );
+    await new EmailClient(
+      process.env["COMMUNICATION_SERVICES_CONNECTION"]
+    ).send(emailMessage);
   } catch (e) {
     context.log(e);
   }
