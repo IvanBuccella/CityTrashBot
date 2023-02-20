@@ -31,7 +31,7 @@ The bot has been created using several [Azure](https://azure.microsoft.com) serv
 
 The picture below shows the bot architecture and the different services interaction:
 
-![Alt text](deliverables/images/architecture.png?raw=true "Bot Architecture")
+![Alt text](deliverables/images/architecture.jpg?raw=true "Bot Architecture")
 
 ## Tutorial
 
