@@ -40,7 +40,7 @@ class Validator {
   static isValidTime(inputTime) {
     if (inputTime === undefined) return false;
     inputTime = inputTime.toLowerCase().replace(/\s+/g, "");
-    return /^[01][0-9]:[0-5][0-9]$/.test(inputTime);
+    return /^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/.test(inputTime);
   }
 }
 
