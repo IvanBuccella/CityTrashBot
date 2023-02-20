@@ -130,10 +130,10 @@ class AddAlertSchedulingDialog extends CancelAndHelpDialog {
         method: "post",
         url: process.env.FUNCTION_ADD_ALERT_SCHEDULING_ENDPOINT,
         data: data,
-      });
+      }).catch(function (e) {});
       let msg;
       let msgToSpeech;
-      if (result.data == 0) {
+      if (result && result.data == 0) {
         msg = `Ops, I'm sorry but I cannot schedule depending on your choices.`;
         msgToSpeech = `I cannot schedule`;
       } else {

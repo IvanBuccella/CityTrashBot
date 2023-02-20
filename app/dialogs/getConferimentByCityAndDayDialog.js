@@ -93,10 +93,12 @@ class GetConferimentByCityAndDayDialog extends CancelAndHelpDialog {
       method: "post",
       url: process.env.FUNCTION_GET_CONFERIMENT_ENDPOINT,
       data: data,
+    }).catch(function (e) {
+      console.log(e);
     });
     let msg;
     let msgToSpeech;
-    if (result.data) {
+    if (result && result.data) {
       msg = `You have to take the "${result.data}" out in "${data.city}" on "${data.day}".`;
       msgToSpeech = `You have to take the "${result.data} out`;
     } else {

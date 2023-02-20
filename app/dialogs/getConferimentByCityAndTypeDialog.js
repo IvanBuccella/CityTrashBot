@@ -97,10 +97,10 @@ class GetConferimentByCityAndTypeDialog extends CancelAndHelpDialog {
       method: "post",
       url: process.env.FUNCTION_GET_CONFERIMENT_ENDPOINT,
       data: data,
-    });
+    }).catch(function (e) {});
     let msg;
     let msgToSpeech;
-    if (result.data) {
+    if (result && result.data) {
       msg = `You have to take the "${data.type}" out in "${data.city}" on "${result.data}".`;
       msgToSpeech = `You have to take it out on "${result.data}"`;
     } else {

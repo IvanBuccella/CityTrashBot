@@ -129,10 +129,10 @@ class AddConferimentDialog extends CancelAndHelpDialog {
         method: "post",
         url: process.env.FUNCTION_ADD_CONFERIMENT_ENDPOINT,
         data: data,
-      });
+      }).catch(function (e) {});
       let msg;
       let msgToSpeech;
-      if (result.data == 0) {
+      if (result && result.data == 0) {
         msg = `Thank you, but I already knew :)`;
         msgToSpeech = `Thank you but I already knew`;
       } else {
