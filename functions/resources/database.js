@@ -161,6 +161,9 @@ class Database {
   async getAllAlerts(params) {
     params.time = this.validateInputTime(params.time);
     try {
+      if (params.time == undefined) {
+        return [];
+      }
       await this.client.connect();
       return await this.client
         .db(process.env.DATABASE_NAME)

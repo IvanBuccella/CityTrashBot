@@ -2,9 +2,9 @@ const { Database } = require("../resources/database");
 
 module.exports = async function (context, myTimer) {
   const time = new Intl.DateTimeFormat([], {
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
+    hourCycle: "h23",
+    hour: "2-digit",
+    minute: "2-digit",
   }).format(new Date());
   const result = await Database.getInstance().getAllAlerts({
     time: time,
