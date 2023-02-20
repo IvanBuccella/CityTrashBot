@@ -1,8 +1,6 @@
 const sdk = require("microsoft-cognitiveservices-speech-sdk");
 const readline = require("readline");
 const { promisifyManyArgs } = require("../resources/promisify");
-const audioBufferToWav = require("audiobuffer-to-wav");
-const { AudioContext } = require("web-audio-api");
 const speechConfig = sdk.SpeechConfig.fromSubscription(
   process.env.SPEECH_KEY,
   process.env.SPEECH_REGION

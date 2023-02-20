@@ -2,6 +2,7 @@ const axios = require("axios");
 const { InputHints } = require("botbuilder");
 /*
 https://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/text-moderation-api#classification
+- ReviewRecommended: true/false
 - Category1: refers to potential presence of language that may be considered sexually explicit or adult in certain situations.
 - Category2 refers to potential presence of language that may be considered sexually suggestive or mature in certain situations.
 - Category3 refers to potential presence of language that may be considered offensive in certain situations.

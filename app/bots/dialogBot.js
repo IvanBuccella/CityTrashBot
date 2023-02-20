@@ -5,8 +5,8 @@ const { ActivityHandler } = require("botbuilder");
 const {
   CityTrashBotSpeechRecognizer,
 } = require("../recognizers/speechRecognizer");
+const fs = require("fs").promises;
 const ffmpeg = require("../resources/ffmpeg");
-const fs = require("fs");
 
 class DialogBot extends ActivityHandler {
   /**
@@ -42,12 +42,12 @@ class DialogBot extends ActivityHandler {
         try {
           const response = await fetch(fileURL);
           if (response.body) {
-            let filename = "SpeechTotextTempFile.wav";
-            fs.appendFile(filename, "", function (err) {});
-            ffmpeg(response.body).output(filename).format("wav").save(filename);
+            let filename = Date.now().toString(36) + ".wav";
+            await this.convertAudioToWav(response.body, filename);
             let text = await CityTrashBotSpeechRecognizer.recognizeAudio(
-              fs.readFileSync(filename)
+              await fs.readFile(filename)
             );
+            await fs.unlink(filename);
             if (text == null) return;
             context.activity.text = text.toLowerCase();
             context.activity.transaledText = text.toLowerCase();
@@ -67,6 +67,21 @@ class DialogBot extends ActivityHandler {
 
       // By calling next() you ensure that the next BotHandler is run.
       await next();
+    });
+  }
+
+  convertAudioToWav(data, filename) {
+    return new Promise((resolve, reject) => {
+      ffmpeg(data)
+        .output(filename)
+        .format("wav")
+        .on("end", () => {
+          return resolve();
+        })
+        .on("err", (err) => {
+          return reject(err);
+        })
+        .save(filename);
     });
   }
 }
