@@ -49,9 +49,7 @@ class DialogBot extends ActivityHandler {
             );
             await fs.unlink(filename);
             if (text == null) return;
-            context.activity.text = text
-              .toLowerCase()
-              .replace(/[^a-zA-Z ]/g, "");
+            context.activity.text = text.toLowerCase().replace(/[^a-z *]/g, "");
             context.activity.transaledText = text.toLowerCase();
           }
         } catch (error) {
